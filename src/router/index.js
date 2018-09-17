@@ -45,6 +45,15 @@ export default new Router({
             }
         },
         {
+            name: 'campaign',
+            path: '/campaign/:id?',
+            component: () => import('@/views/Campaign'),
+            props: true,
+            meta: {
+                requiresAuth: true,
+            }
+        },
+        {
             name: 'settings',
             path: '/settings',
             component: () => import('@/views/Settings'),
@@ -56,15 +65,6 @@ export default new Router({
             name: 'beacons',
             path: '/beacons',
             component: () => import('@/views/Beacons'),
-            meta: {
-                requiresAuth: true,
-            }
-        },
-        {
-            name: 'campaign',
-            path: '/campaign/:id',
-            component: () => import('@/views/Campaign'),
-            props: true,
             meta: {
                 requiresAuth: true,
             }

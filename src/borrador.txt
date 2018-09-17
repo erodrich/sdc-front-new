@@ -1,0 +1,18 @@
+<ul  class="navbar-nav">
+    <li class="nav-item">
+        <router-link class="nav-link"
+            active-class="active"
+            exact
+            :to="{ name: 'beacons' }">
+            <i class="ion-compose"></i>Beacons
+        </router-link>
+    </li>
+    <li class="nav-item">
+        <router-link class="nav-link"
+            active-class="active"
+            exact
+            :to="{ name: 'campaign' }">
+            <i class="ion-compose"></i>Campañas
+        </router-link>
+    </li>
+</ul>

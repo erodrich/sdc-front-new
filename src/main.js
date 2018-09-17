@@ -12,6 +12,7 @@ import ApiService from '@/common/api.service'
 //import ErrorFilter from '@/common/error.filter'
 
 Vue.config.productionTip = false
+Vue.config.ignoredElements = [/^ion-/]
 //Vue.filter('date', DateFilter)
 //Vue.filter('error', ErrorFilter)
 

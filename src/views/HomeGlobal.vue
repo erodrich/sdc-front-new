@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <div class="banner">
+    <div class="header">
       <div class="container">
         <h1>Digicoupon</h1>
         <p>Anuncie aquí, anuncie en todas partes</p>
@@ -8,23 +8,25 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-4 sidebar">
-
+        <div class="col-md-3">
+          <app-sidebar></app-sidebar>
         </div>
-        <div class="col-md-8">
-          <app-campaign-list></app-campaign-list>
+        <div class="col-md-9">
+          <app-home-stats></app-home-stats>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import AppCampaignList from '@/components/CampaignList'
+import AppSidebar from '@/components/TheSidebar'
+import AppHomeStats from '@/components/HomeStats'
 
 export default {
     name: 'HomeGlobal',
     components: {
-        AppCampaignList
+        AppSidebar,
+        AppHomeStats,
     }
 }
 </script>

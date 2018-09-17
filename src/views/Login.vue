@@ -6,7 +6,7 @@
                     <div class="col-md-6">
                         <div class="card text-center card-form">
                             <div class="card-body">
-                                <h3>Digicoupon</h3>
+                                <h3>Digicupon</h3>
                                 <hr>
                                 <form action="#" @submit.prevent="login(username, password)">
                                     <div class="form-group">

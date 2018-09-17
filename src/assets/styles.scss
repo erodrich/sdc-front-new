@@ -6,6 +6,7 @@ $accent-color:         #FF9800;
 $primary-text-color:   #212121;
 $secondary-text-color: #757575;
 $divider-color:        #BDBDBD;
+$background-light:      #eeeeee;
 
 body {
     background: $primary-color-dark;
@@ -18,6 +19,25 @@ body {
         color: $primary-color-text;
     }
 }
-.banner {
-    margin-top: 100px
+.header {
+    margin-top: 60px;
+    background: $primary-text-color;
+    height: 100%;
+    padding: 20px;
+    border-bottom: $divider-color 1px solid;
+    border-top: $divider-color 1px solid;
+}
+.card {
+    color: $primary-text-color;
+    margin-top: 5px;
+}
+.sidebar.ul.list-group {
+    padding: 5px;
+}
+.sidebar.list-group-item{
+    background-color: $background-light;
+}
+.homestats {
+    color: $primary-text-color;
+    margin-top: 5px;
 }
