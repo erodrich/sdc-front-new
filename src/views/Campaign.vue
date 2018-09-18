@@ -12,7 +12,8 @@
           <app-sidebar></app-sidebar>
         </div>
         <div class="col-md-9">
-            <app-campaign-list></app-campaign-list>
+            <app-campaign-list v-if="!campaignId"></app-campaign-list>
+            <app-campaign-show :id="id" v-else></app-campaign-show>
         </div>
       </div>
     </div>
@@ -21,11 +22,29 @@
 <script>
 import AppSidebar from '@/components/TheSidebar'
 import AppCampaignList from '@/components/CampaignList'
+import AppCampaignShow from '@/components/CampaignShow'
 
 export default {
+    name: 'Campaign',
+    data() {
+      return {
+        id: ''
+      }
+    },
     components: {
         AppSidebar,
         AppCampaignList,
+        AppCampaignShow
+    },
+    computed: {
+        campaignId() {
+          if(this.$route.params.id){
+            this.id = this.$route.params.id
+            return true
+          } else {
+            return false
+          }
+        }
     }
 }
 </script>

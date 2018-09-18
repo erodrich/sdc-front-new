@@ -78,6 +78,14 @@ export default new Router({
                 requiresAuth: true,
             }
         },
+                {
+            name: 'profile',
+            path: '/profile',
+            component: () => import('@/views/Profile'),
+            meta: {
+                requiresAuth: true,
+            }
+        },
         {
             name: 'page-not-found',
             path: '*',

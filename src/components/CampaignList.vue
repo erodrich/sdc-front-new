@@ -5,12 +5,13 @@
             <h5>Campañas</h5>
         </div>
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
                 <thead>
-                    <th>Campaña</th>
+                    <th>Nombre</th>
                     <th>Inicio</th>
                     <th>Fin</th>
-                    <th>Activa</th>   
+                    <th>Activa</th>
+                    <th></th>   
                 </thead>
                 <tbody>
                     <tr v-for="campaign in campaigns" :key="campaign.id">
@@ -19,12 +20,15 @@
                             tag="td" 
                             ><a>{{campaign.name}}</a>
                         </router-link>
-                        <td>{{campaign.startDate}}</td>
-                        <td>{{campaign.endDate}}</td>
-                        <td>{{campaign.active}}</td>
+                        <td>{{campaign.start_date}}</td>
+                        <td>{{campaign.end_date}}</td>
+                        <td class="text-center">
+                            <i v-if="campaign.active" class="ion-checkmark"></i>
+                            <i v-else class="ion-close"></i>
+                        </td>
                         <td>
                             <a href="#" class="btn btn-primary">
-                                <span data-feather="edit">Edit</span>        
+                                Edit       
                             </a>
                         </td>
                     </tr>
@@ -44,19 +48,17 @@ export default {
     name: 'CampaignList',
     data() {
         return {
-            campaigns: []
+            
         }
     },    
     computed: {
       ...mapGetters([
-        'currentUser'
+        'campaigns',
       ])
     },
-    watch: {
-        currentUser() {
-            this.$store.dispatch(FETCH_CAMPAIGNS)
-        }
-    },
+    mounted() {
+        this.$store.dispatch(FETCH_CAMPAIGNS)
+    }
 
     
 }

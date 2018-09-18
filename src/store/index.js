@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import home from './home.module'
 import auth from './auth.module'
 import campaigns from './campaign.module'
+import ad from './ad.module'
 //import article from './article.module'
 //import profile from './profile.module'
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     home,
     auth,
     campaigns,
+    ad,
  //   article,
  //   profile
   }

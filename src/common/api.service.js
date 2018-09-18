@@ -82,8 +82,9 @@ export const BeaconsService = {
     }
 }
 export const AdsService = {
-    get(campaign, id){
-        return ApiService.get(`campaigns/${campaign}/ads`, id)
+    get(client, campaign, id){
+        const resource = "clients/" + client + "/campaigns/" + campaign 
+        return ApiService.get(resource, id)
     },
     create (campaign, params) {
         return ApiService.post(`campaigns/${campaign}/ads`, {ad: params})

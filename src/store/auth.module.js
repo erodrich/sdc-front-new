@@ -1,12 +1,13 @@
 import ApiService from '@/common/api.service'
 import JwtService from '@/common/jwt.service'
+import ClientService from '@/common/client.service'
 import { LOGIN, LOGOUT, REGISTER, CHECK_AUTH, UPDATE_USER, USER_INFO } from './actions.type'
 import { SET_AUTH, PURGE_AUTH, SET_ERROR, SET_CURRENT_USER } from './mutations.type'
 
 const state = {
     errors: null,
     user: {},
-    client_id: '',
+    client_id: ClientService.getClientId(),
     isAuthenticated: !!JwtService.getToken()
 }
 
@@ -63,7 +64,7 @@ const actions = {
         })
         .catch(({error}) => {
             context.commit(PURGE_AUTH)
-            reject(error)
+            console.log(error)
         })
         
     },
@@ -87,11 +88,10 @@ const actions = {
           ApiService
             .get('user')
             .then(({data}) => {
-                console.log("Data: " + data)
-              context.commit(SET_CURRENT_USER, data)
+                context.commit(SET_CURRENT_USER, data)
             })
             .catch(({response}) => {
-              console.log("Response:" + response)
+              context.commit(PURGE_AUTH)
               context.commit(SET_ERROR, response)
             })
         } else {
@@ -127,6 +127,7 @@ const mutations = {
     [SET_CURRENT_USER] (state, user) {
         state.user = user
         state.client_id = user.client_id
+        ClientService.saveClient(user.client_id)
     },
     [SET_AUTH] (state, authInfo) {
         state.isAuthenticated = true
@@ -139,6 +140,7 @@ const mutations = {
         state.errors = {}
         state.client_id = null
         JwtService.destroyToken()
+        ClientService.destroyClient()
     }
 }
 
