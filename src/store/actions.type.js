@@ -1,6 +1,7 @@
 export const CAMPAIGN_PUBLISH = 'publishCampaign'
 export const CAMPAIGN_DELETE = 'deleteCampaign'
 export const CAMPAIGN_EDIT = 'editCampaign'
+export const CAMPAIGN_NEW= 'newCampaign'
 export const CAMPAIGN_EDIT_ADD_TAG = 'addTagToCampaign'
 export const CAMPAIGN_EDIT_REMOVE_TAG = 'removeTagFromCampaign'
 export const CAMPAIGN_RESET_STATE = 'resetCampaignState'

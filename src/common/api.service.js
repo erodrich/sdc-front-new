@@ -24,7 +24,6 @@ const ApiService = {
     get(resource, id = '') {
         let x = resource
         id != '' ? x += `/${id}` : x
-        console.log("ApiService: " + resource)
         return Vue.axios
         //.get(`${resource}/${id}`)
         .get(`${x}`)
@@ -54,11 +53,11 @@ export default ApiService
 export const CampaignsService = {
     get(client, id) {
         const resource = "clients/" + client + "/campaigns"
-        console.log("CampaignService: " + resource)
         return ApiService.get(resource, id)
     },
     create (params) {
-        return ApiService.post('campaigns', {campaign: params})
+        const resource = "/campaigns"
+        return ApiService.post(resource, params)
     },
     update (id, params) {
         return ApiService.update('campaigns', id, {campaign: params})
@@ -83,7 +82,7 @@ export const BeaconsService = {
 }
 export const AdsService = {
     get(client, campaign, id){
-        const resource = "clients/" + client + "/campaigns/" + campaign 
+        const resource = "clients/" + client + "/campaigns/" + campaign + "/ads"
         return ApiService.get(resource, id)
     },
     create (campaign, params) {

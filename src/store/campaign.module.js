@@ -1,6 +1,7 @@
 import { CampaignsService } from '@/common/api.service'
 import {
   FETCH_CAMPAIGNS,
+  CAMPAIGN_NEW,
 } from './actions.type'
 import {
   SET_CAMPAIGNS
@@ -9,8 +10,8 @@ import {
 const state = {
   campaigns: [],
   campaign: {},
-  isLoading: true,
-  campaignsCount: 0
+  campaignsCount: 0,
+
 }
 const getters = {
     campaigns (state) {
@@ -18,7 +19,7 @@ const getters = {
     },
     campaign (state) {
         return state.campaign
-    }
+    },
 }
 const mutations = {
     [SET_CAMPAIGNS] (state, data) {
@@ -42,7 +43,9 @@ const mutations = {
                 name: data.attributes.name,
                 start_date: data.attributes.start_date,
                 end_date: data.attributes.end_date,
-                active: data.attributes.active == 1 ? true : false
+                active: data.attributes.active == 1 ? true : false,
+                ads: data.relationships.ads.data,
+                beacons: data.relationships.beacons.data
             }
             state.campaign = campaign
         }
@@ -54,13 +57,22 @@ const actions = {
         return CampaignsService
         .get(rootGetters.getClientId, id)
         .then(( response ) => {
-            console.log(response.data)
             commit(SET_CAMPAIGNS, response.data)
         })
         .catch((error) => {
             throw new Error(error)
         })
     },
+    [CAMPAIGN_NEW] (context, campaign) {
+        campaign.client_id = context.rootGetters.getClientId
+        console.log(campaign)
+        return CampaignsService
+        .create(campaign)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch()
+    }
 }
 
 export default {

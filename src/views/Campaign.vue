@@ -12,8 +12,10 @@
           <app-sidebar></app-sidebar>
         </div>
         <div class="col-md-9">
-            <app-campaign-list v-if="!campaignId"></app-campaign-list>
-            <app-campaign-show :id="id" v-else></app-campaign-show>
+          <div v-if="!campaignId" class="row">
+            <app-campaign-list></app-campaign-list>
+          </div>
+            <app-campaign-show v-else :id="id"></app-campaign-show>
         </div>
       </div>
     </div>
@@ -34,7 +36,7 @@ export default {
     components: {
         AppSidebar,
         AppCampaignList,
-        AppCampaignShow
+        AppCampaignShow,
     },
     computed: {
         campaignId() {

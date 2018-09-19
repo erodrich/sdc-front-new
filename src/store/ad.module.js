@@ -10,17 +10,20 @@ const state = {
 const getters = {
     ads(state) {
         return state.ads
+    },
+    ad(state) {
+        return state.ad
     }
 
 }
 const actions = {
-    [FETCH_ADS] ({commit, rootGetters}, id = '') {
-        console.log(rootGetters.campaign.id)
+    [FETCH_ADS] (context, data) {
+        console.log(new Date().toLocaleString())
         return AdsService
-        .get(rootGetters.getClientId, rootGetters.campaign.id, id)
+        .get(context.rootGetters.getClientId, data.campaign, data.id)
         .then(( response ) => {
             console.log(response.data)
-            commit(SET_ADS, response.data)
+            context.commit(SET_ADS, response.data)
         })
         .catch((error) => {
             throw new Error(error)
@@ -30,7 +33,38 @@ const actions = {
 }
 const mutations = {
     [SET_ADS] (state, data) {
-
+        state.ads = []
+        data = data.data
+        if(data instanceof Array){
+            var i;
+            for(i = 0; i < data.length; i++){
+                const ad = {
+                    id: data[i].id,
+                    title: data[i].attributes.title,
+                    subtitle: data[i].attributes.subtitle,
+                    image_pre_url: data[i].attributes.image_pre_url,
+                    image_full_url: data[i].attributes.image_full_url,
+                    image_pre_name: data[i].attributes.image_pre_name,
+                    image_full_name: data[i].attributes.image_full_name,
+                    video_url: data[i].attributes.video_url,
+                    created_at: data[i].attributes.created_at,
+                }
+                state.ads.push(ad)
+            }
+        } else {
+            const ad = {
+                id: data.id,
+                title: data.attributes.title,
+                subtitle: data.attributes.subtitle,
+                image_pre_url: data.attributes.image_pre_url,
+                image_full_url: data.attributes.image_full_url,
+                image_pre_name: data.attributes.image_pre_name,
+                image_full_name: data.attributes.image_full_name,
+                video_url: data.attributes.video_url,
+                created_at: data.attributes.created_at,
+            }
+            state.ad = ad
+        }
     }
 
 }
