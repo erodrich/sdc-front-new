@@ -19,22 +19,68 @@
                         </dd>
                     </dl>
                 </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" @click="showAdForm()">Añadir Anuncio</button>
+                </div>
             </div>
         </div>
 
         <div class="row">
-            <app-ad-list v-if="this.campaign.ads.length > 0"></app-ad-list>
+            <app-ad-list v-if="this.campaign.ads"></app-ad-list>
         </div>
+    <div id="FormModal">
+        <div id="ad-modal" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nuevo Anuncio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label>Título</label>
+                                <input type="text" class="form-control" name="start_date" v-model="newAd.title">
+                            </div>
+                            <div class="form-group">
+                                <label>Subtítulo</label>
+                                <input type="text" class="form-control" name="start_date" v-model="newAd.subtitle">
+                            </div>
+                            <div class="form-group">
+                                <label>Imagen de Previsualización</label>
+                                <input type="text" class="form-control" name="endt_date" v-model="newAd.image_pre_name">
+                            </div>
+                            <div class="form-group">
+                                <label>Imagen principal</label>
+                                <input type="text" class="form-control" name="endt_date" v-model="newAd.image_full_name">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="saveAd()">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearNewAd()">Cancelar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     
 </template>
 <script>
 import AppAdList from '@/components/AdList'
-import { FETCH_CAMPAIGNS } from '@/store/actions.type'
+import { FETCH_CAMPAIGNS, AD_NEW } from '@/store/actions.type'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'AppCampaignShow',
+    data() {
+        return {
+            newAd: {}
+        }
+    },
     props: [
         'id'
     ],
@@ -47,11 +93,25 @@ export default {
       ])
     },
     mounted() {
-        this.$store.dispatch(FETCH_CAMPAIGNS, this.id)
+        this.fetchCampaign()
     },
     methods: {
-        test() {
-            console.log(this.campaign.ads.length)
+        fetchCampaign() {
+            this.$store.dispatch(FETCH_CAMPAIGNS, this.id)
+        },
+        showAdForm() {
+            console.log("Muestro Formulario")
+            $("#ad-modal").modal('show');
+        },
+        saveAd(){
+            console.log(this.newAd)
+            this.newAd.campaign_id = this.campaign.id
+            this.$store.dispatch(AD_NEW, this.newAd)
+            this.fetchCampaign()
+            $('#ad-modal').modal('toggle');
+        },
+        clearNewAd() {
+            this.newAd = {}
         }
     }
     

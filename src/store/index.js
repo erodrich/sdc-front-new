@@ -5,6 +5,7 @@ import home from './home.module'
 import auth from './auth.module'
 import campaigns from './campaign.module'
 import ad from './ad.module'
+import beacons from './beacon.module'
 //import article from './article.module'
 //import profile from './profile.module'
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     auth,
     campaigns,
     ad,
+    beacons,
  //   article,
  //   profile
   }

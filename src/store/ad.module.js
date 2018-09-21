@@ -1,5 +1,6 @@
 import { AdsService } from '@/common/api.service'
 import { FETCH_ADS } from '@/store/actions.type'
+import { AD_NEW } from '@/store/actions.type'
 import { SET_ADS } from '@/store/mutations.type'
 
 const state = {
@@ -18,17 +19,25 @@ const getters = {
 }
 const actions = {
     [FETCH_ADS] (context, data) {
-        console.log(new Date().toLocaleString())
         return AdsService
         .get(context.rootGetters.getClientId, data.campaign, data.id)
         .then(( response ) => {
-            console.log(response.data)
             context.commit(SET_ADS, response.data)
         })
         .catch((error) => {
             throw new Error(error)
         })
     },
+    [AD_NEW] (context, ad) {
+        return AdsService
+        .create(ad)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            consolo.log(error)
+        })
+    }
 
 }
 const mutations = {

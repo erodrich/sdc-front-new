@@ -44,7 +44,7 @@ const mutations = {
                 start_date: data.attributes.start_date,
                 end_date: data.attributes.end_date,
                 active: data.attributes.active == 1 ? true : false,
-                ads: data.relationships.ads.data,
+                ads: data.relationships.ads.data.length ? data.relationships.ads.data : null,
                 beacons: data.relationships.beacons.data
             }
             state.campaign = campaign
@@ -64,14 +64,15 @@ const actions = {
         })
     },
     [CAMPAIGN_NEW] (context, campaign) {
-        campaign.client_id = context.rootGetters.getClientId
         console.log(campaign)
         return CampaignsService
         .create(campaign)
         .then((response) => {
             console.log(response.data)
         })
-        .catch()
+        .catch((error) => {
+            console.log("Error en CAMPAIGN_NEW")
+        })
     }
 }
 

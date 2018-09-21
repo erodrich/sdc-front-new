@@ -121,6 +121,7 @@ export default {
         },
         saveCampaign() {
             this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
+            this.clearNewCampaign()
             $('#my-modal').modal('toggle');
         }
     }

@@ -11,6 +11,7 @@ $background-light:      #eeeeee;
 body {
     background: $primary-color-dark;
     color: $primary-color-text;
+    font-size: 0.8em;
 }
 .navbar {
     border-bottom: $divider-color 3px solid;
@@ -30,6 +31,7 @@ body {
 .card {
     color: $primary-text-color;
     margin-top: 5px;
+    width: 100%;
 }
 .sidebar.ul.list-group {
     padding: 5px;

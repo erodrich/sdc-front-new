@@ -54,6 +54,15 @@ export default new Router({
             }
         },
         {
+            name: 'campaign-edit',
+            path: '/editor/:id?',
+            props: true,
+            component: () => import('@/views/CampaignEdit'),
+            meta: {
+                requiresAuth: true,
+            }
+        },
+        {
             name: 'settings',
             path: '/settings',
             component: () => import('@/views/Settings'),
@@ -65,15 +74,6 @@ export default new Router({
             name: 'beacons',
             path: '/beacons',
             component: () => import('@/views/Beacons'),
-            meta: {
-                requiresAuth: true,
-            }
-        },
-        {
-            name: 'campaign-edit',
-            path: '/editor/:id?',
-            props: true,
-            component: () => import('@/views/CampaignEdit'),
             meta: {
                 requiresAuth: true,
             }
