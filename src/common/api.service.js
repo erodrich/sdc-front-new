@@ -31,8 +31,8 @@ const ApiService = {
             throw new Error(`[SDC] ApiService ::: get ::: ${error}`)
         })
     },
-    post(resource, params) {
-        return Vue.axios.post(`${resource}`, params)
+    post(resource, params, extra = '') {
+        return Vue.axios.post(`${resource}`, params, extra)
     },
     update(resource, id, params){
         return Vue.axios.put(`${resource}/${id}`, params)
@@ -75,7 +75,7 @@ export const BeaconsService = {
         return ApiService.post('beacons', {beacon: params})
     },
     update (id, params) {
-        return ApiService.update('beacons', id, {beacon: params})
+        return ApiService.update('beacons', id, params)
     },
     destroy (id){
         return ApiService.delete(`beacons/${id}`)
@@ -87,10 +87,11 @@ export const AdsService = {
         return ApiService.get(resource, id)
     },
     create (params) {
-        return ApiService.post('/ads', params)
+        return ApiService.post('/ads', params,  {headers: {'Content-Type': 'multipart/form-data'}})
     },
-    update (campaign, id, params) {
-        return ApiService.update(`campaigns/${campaign}/ads`, id, {ad: params})
+    update (id, params) {
+        ApiService.setMultiPartHeader();
+        return ApiService.update('/ads', id, params)
     },
     destroy (campaign, id){
         return ApiService.delete(`campaigns/${campaign}/ads/${id}`)

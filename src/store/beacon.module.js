@@ -1,6 +1,6 @@
 import { BeaconsService } from '@/common/api.service'
-import { FETCH_BEACONS } from '@/store/actions.type'
-import { SET_BEACONS } from '@/store/mutations.type'
+import { FETCH_BEACONS, BEACON_UPDATE } from '@/store/actions.type'
+import { SET_BEACONS, PURGE_BEACON } from '@/store/mutations.type'
 
 const state = {
     beacons: [],
@@ -15,9 +15,9 @@ const getters = {
     }
 }
 const actions = {
-    [FETCH_BEACONS] (context, data) {
+    [FETCH_BEACONS] (context, id = '') {
         return BeaconsService
-        .get(context.rootGetters.getClientId)
+        .get(context.rootGetters.getClientId, id)
         .then(( response ) => {
             console.log(response.data)
             context.commit(SET_BEACONS, response.data)
@@ -26,6 +26,17 @@ const actions = {
             throw new Error(error)
         })
     },
+    [BEACON_UPDATE] (context, data) {
+        return BeaconsService
+        .update(data.id, data)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log('Error')
+            throw new Error(error)
+        })
+    }
 }
 const mutations = {
     [SET_BEACONS] (state, data) {
@@ -40,6 +51,7 @@ const mutations = {
                     alias: data[i].attributes.alias,
                     ubicacion: data[i].attributes.ubicacion,
                     created_at: data[i].attributes.created_at,
+                    available: data[i].attributes.campaign ? false : true,
                 }
                 state.beacons.push(beacon)
             }
@@ -53,6 +65,9 @@ const mutations = {
             }
             state.beacon = beacon
         }
+    },
+    [PURGE_BEACON] (state) {
+        state.beacon = {}
     }
 
 }

@@ -1,6 +1,7 @@
 export const FETCH_END = 'setArticles'
 export const FETCH_START = 'setLoading'
 export const PURGE_AUTH = 'logOut'
+export const PURGE_BEACON = 'clearBeacon'
 export const SET_CAMPAIGN = 'setCampaign'
 export const SET_CAMPAIGNS = 'setCampaigns'
 export const SET_AUTH = 'setUser'

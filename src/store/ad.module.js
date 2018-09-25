@@ -35,7 +35,7 @@ const actions = {
             console.log(response.data)
         })
         .catch((error) => {
-            consolo.log(error)
+            console.log(error)
         })
     }
 

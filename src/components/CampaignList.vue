@@ -94,12 +94,14 @@ export default {
                 start_date: '',
                 end_date: '',
                 active: '',
+                client_id: '',
             }
         }
     },    
     computed: {
       ...mapGetters([
         'campaigns',
+        'getClientId'
       ])
     },
     mounted() {
@@ -111,6 +113,7 @@ export default {
         },
         showFormModal() {
             console.log("Mostrar")
+            this.clearNewCampaign()
             $("#my-modal").modal('show');
         },
         clearNewCampaign() {
@@ -120,8 +123,8 @@ export default {
             this.newCampaign.active = ''
         },
         saveCampaign() {
+            this.newCampaign.client_id = this.getClientId;
             this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
-            this.clearNewCampaign()
             $('#my-modal').modal('toggle');
         }
     }
