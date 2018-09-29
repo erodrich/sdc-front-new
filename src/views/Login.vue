@@ -81,11 +81,11 @@ export default {
     padding-top: 150px;
 }
 .card-body {
-    background-color: #F44336;
+    background-color: rgba(133, 186, 220, 1);
     border-radius: 15px;
 }
 .card {
-    background-color: #F44336;
+    background-color: rgba(133, 186, 220, 1);
     border-radius: 15px;
 }
 </style>

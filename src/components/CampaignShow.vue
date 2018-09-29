@@ -108,7 +108,7 @@
                                     @change="handleFileUpload()">
                             </div>
                             <div class="form-group">
-                                <label>Video url</label>
+                                <label>Video link:</label>
                                 <input type="text" 
                                     class="form-control" 
                                     name="endt_date" 

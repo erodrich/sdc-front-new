@@ -2,7 +2,7 @@
   <div class="home-page">
     <div class="header">
       <div class="container">
-        <h1>Digicoupon</h1>
+        <h1>Digicupon</h1>
         <p>Anuncie aquí, anuncie en todas partes</p>
       </div>
     </div>

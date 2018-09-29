@@ -1,8 +1,10 @@
 <template>
-    <div class="navbar navbar-expand-sm bg-dark fixed-top">
+    <div class="navbar navbar-expand-sm bg-dark ">
         <div class="container">
             <router-link class="navbar-brand"
-            :to="{ name: 'home' }">
+            :to="{ name: '/' }">
+                <img src="@/assets/logo.jpg" width="60" height="60" alt="">
+                &nbsp;
                 Digicupon
             </router-link>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">

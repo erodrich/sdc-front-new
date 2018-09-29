@@ -1,4 +1,10 @@
-$primary-color-dark:   #D32F2F;
+$color1: rgba(133, 186, 220, 1);
+$color2: rgba(181, 229, 250, 1);
+$color3: rgba(253, 254, 255, 1);
+$color4: rgba(113, 200, 237, 1);
+$color5: rgba(92, 187, 230, 1);
+
+$primary-color-dark: $color1;
 $primary-color:        #F44336;
 $primary-color-light:  #FFCDD2;
 $primary-color-text:   #FFFFFF;
@@ -13,6 +19,9 @@ body {
     color: $primary-color-text;
     font-size: 0.8em;
 }
+.footer {
+    min-height: 100px;
+}
 .navbar {
     border-bottom: $divider-color 3px solid;
     opacity: 0.9;
@@ -21,7 +30,7 @@ body {
     }
 }
 .header {
-    margin-top: 60px;
+    //margin-top: 60px;
     background: $primary-text-color;
     height: 100%;
     padding: 20px;

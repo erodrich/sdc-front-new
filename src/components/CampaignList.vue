@@ -37,6 +37,7 @@
             </table>
         </div>
     </div>
+    <!-- Nuevo Campaña -->
     <div id="FormModal">
         <div id="my-modal" class="modal fade">
             <div class="modal-dialog" role="document">

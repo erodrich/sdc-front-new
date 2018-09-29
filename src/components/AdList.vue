@@ -25,6 +25,7 @@
                 </table>
             </div>
         </div>
+        <!-- Detalle Anuncio -->
         <div id="AdModal">
             <div id="my-modal" class="modal fade">
                 <div class="modal-dialog" role="document">
