@@ -15,7 +15,7 @@
                     <th></th>   
                 </thead>
                 <tbody>
-                    <tr v-for="campaign in campaigns" :key="campaign.key">
+                    <tr v-for="(campaign, index) in campaigns" :key="index">
                         <router-link 
                             :to="{ name: 'campaign', params: { id: campaign.id } }" 
                             tag="td" 
@@ -127,6 +127,7 @@ export default {
             this.newCampaign.client_id = this.getClientId;
             this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
             $('#my-modal').modal('toggle');
+            this.fetchCampaigns()
         }
     }
 

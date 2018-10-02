@@ -8,6 +8,9 @@
                             <div class="card-body">
                                 <h3>Digicupon</h3>
                                 <hr>
+                                <ul v-if="getErrorMsg(errors)" class="alert alert-danger">
+                                    <div>{{getErrorMsg(errors)}}</div>
+                                </ul>
                                 <form action="#" @submit.prevent="login(username, password)">
                                     <div class="form-group">
                                         <input type="email" 
@@ -54,12 +57,23 @@ export default {
                 username: this.username,
                 password: this.password
             })
-            .then(() => this.$router.push({name: 'home'}))
+            .then(() => {
+                this.$router.push({name: 'home'})
+            })
+        },
+        getErrorMsg(errors){
+            for (var k in errors){
+                if(k == "response"){
+                    return errors[k].data
+                }
+            }
         }
     },
-    ...mapState({
+    computed: {
+        ...mapState({
         errors: state => state.auth.errors
-    })
+        })
+    }
 }
 </script>
 <style scoped>
@@ -75,7 +89,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 800px;
+    min-height: 1200px;
 }
 .container{
     padding-top: 150px;

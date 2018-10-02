@@ -2,7 +2,7 @@
     <div class="navbar navbar-expand-sm bg-dark ">
         <div class="container">
             <router-link class="navbar-brand"
-            :to="{ name: '/' }">
+            :to="{ name: 'home' }">
                 <img src="@/assets/logo.jpg" width="60" height="60" alt="">
                 &nbsp;
                 Digicupon

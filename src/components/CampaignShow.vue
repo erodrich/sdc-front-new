@@ -85,7 +85,7 @@
                                     v-model="newAd.title">
                             </div>
                             <div class="form-group">
-                                <label>Subtítulo</label>
+                                <label>Descripción</label>
                                 <input type="text" 
                                     class="form-control" 
                                     name="start_date" 
@@ -113,6 +113,13 @@
                                     class="form-control" 
                                     name="endt_date" 
                                     v-model="newAd.video_url">
+                            </div>
+                            <div class="form-group">
+                                <label>Url link:</label>
+                                <input type="text" 
+                                    class="form-control" 
+                                    name="endt_date" 
+                                    v-model="newAd.link_url">
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -143,7 +150,8 @@ export default {
                 subtitle: '',
                 image_pre: '',
                 image_full: '',
-                video_url: ''
+                video_url: '',
+                link_url: '',
             },
             selected: {},
         }
@@ -207,6 +215,7 @@ export default {
             formData.append('image_pre', this.newAd.image_pre)
             formData.append('image_full', this.newAd.image_full)
             formData.append('video_url', this.newAd.video_url)
+            formData.append('link_url', this.newAd.link_url)
             formData.append('campaign_id', this.campaign.id)
             console.log(formData)
             this.$store.dispatch(AD_NEW, formData)

@@ -56,6 +56,7 @@ const mutations = {
                     image_pre_name: data[i].attributes.image_pre_name,
                     image_full_name: data[i].attributes.image_full_name,
                     video_url: data[i].attributes.video_url,
+                    link_url: data[i].attributes.link_url,
                     created_at: data[i].attributes.created_at,
                 }
                 state.ads.push(ad)
@@ -70,6 +71,7 @@ const mutations = {
                 image_pre_name: data.attributes.image_pre_name,
                 image_full_name: data.attributes.image_full_name,
                 video_url: data.attributes.video_url,
+                link_url: data.attributes.link_url,
                 created_at: data.attributes.created_at,
             }
             state.ad = ad

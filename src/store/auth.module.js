@@ -20,6 +20,9 @@ const getters = {
     },
     getClientId (state) {
         return state.client_id
+    },
+    getErrors (state) {
+        return state.errors
     }
 }
 
@@ -39,7 +42,6 @@ const actions = {
            .catch((error) => {
                console.log("Response: " + error)
                context.commit(SET_ERROR, error)
-               reject(error)
            })
        }) 
     },
