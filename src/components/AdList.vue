@@ -40,7 +40,7 @@
                             <img :src="modalAd.image_full_url" alt="">
                             <hr>
                             <h5>{{ modalAd.title }}</h5>
-                            <p class="lead"> {{ modalAd.subtitle }}</p>
+                            <p class="lead"> {{ modalAd.description }}</p>
                             <hr>
                             <button class="btn btn-primary">Enlace</button>
 
