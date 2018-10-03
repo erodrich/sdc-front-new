@@ -89,7 +89,7 @@
                                 <input type="text" 
                                     class="form-control" 
                                     name="start_date" 
-                                    v-model="newAd.subtitle">
+                                    v-model="newAd.description">
                             </div>
                             <div class="form-group">
                                 <label>Imagen de Previsualización</label>
@@ -147,7 +147,7 @@ export default {
         return {
             newAd: {
                 title: '',
-                subtitle: '',
+                description: '',
                 image_pre: '',
                 image_full: '',
                 video_url: '',
@@ -211,7 +211,7 @@ export default {
         saveAd(){
             let formData = new FormData();
             formData.append('title', this.newAd.title)
-            formData.append('subtitle', this.newAd.subtitle)
+            formData.append('description', this.newAd.description)
             formData.append('image_pre', this.newAd.image_pre)
             formData.append('image_full', this.newAd.image_full)
             formData.append('video_url', this.newAd.video_url)
@@ -220,6 +220,7 @@ export default {
             console.log(formData)
             this.$store.dispatch(AD_NEW, formData)
             $('#ad-modal').modal('toggle');
+            this.fetchBeacons();
         },
         clearNewAd() {
             this.newAd = {}

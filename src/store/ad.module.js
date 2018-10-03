@@ -50,7 +50,7 @@ const mutations = {
                 const ad = {
                     id: data[i].id,
                     title: data[i].attributes.title,
-                    subtitle: data[i].attributes.subtitle,
+                    description: data[i].attributes.description,
                     image_pre_url: data[i].attributes.image_pre_url,
                     image_full_url: data[i].attributes.image_full_url,
                     image_pre_name: data[i].attributes.image_pre_name,
@@ -65,7 +65,7 @@ const mutations = {
             const ad = {
                 id: data.id,
                 title: data.attributes.title,
-                subtitle: data.attributes.subtitle,
+                description: data.attributes.description,
                 image_pre_url: data.attributes.image_pre_url,
                 image_full_url: data.attributes.image_full_url,
                 image_pre_name: data.attributes.image_pre_name,
