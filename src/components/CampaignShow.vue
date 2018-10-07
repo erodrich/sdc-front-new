@@ -3,9 +3,14 @@
         <div class="row">
             <div class="card">
                 <div class="card-header">
-                    <h5>Detalle de Campaña</h5>
+                    <h5 class="d-flex justify-content-between align-items-center">
+                    Datos de Campaña
+                    <button type="button" class="btn btn-secondary" @click="toggleDatosCampaña()">
+                        <i :class="showDatosCampaña ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
+                    </button>
+                </h5>
                 </div>
-                <div class="card-body">
+                <div v-if="showDatosCampaña" class="card-body">
                     <dl class="row">
                         <dt class="col-sm-3">Campaña: </dt>
                         <dd class="col-sm-9">{{ campaign.name }}</dd>
@@ -46,14 +51,17 @@
                     </div>
                     <form>
                     <div class="modal-body">
-                        <label class="mr-sm-2" for="inlineFormCustomSelect">Beacons</label>
-                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" v-model="selected">
-                            <option selected disabled>Seleccione ...</option>
-                            <option v-for="mbeacon in beacons" 
-                                :value="mbeacon"
-                                :key="mbeacon.id"
-                                :disabled="!mbeacon.available">{{mbeacon.alias}}</option>
-                        </select>
+                        <div class="form-group">
+                            <label class="mr-sm-2" for="inlineFormCustomSelect">Beacons</label>
+                            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" v-model="selected">
+                                <option selected disabled>Seleccione ...</option>
+                                <option v-for="mbeacon in beacons" 
+                                    :value="mbeacon"
+                                    :key="mbeacon.id"
+                                    :disabled="!mbeacon.available">{{mbeacon.alias}}</option>
+                            </select>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" @click="saveBeacon()">Guardar</button>
@@ -118,7 +126,7 @@
                                 <label>Url link:</label>
                                 <input type="text" 
                                     class="form-control" 
-                                    name="endt_date" 
+                                    name="urlLink" 
                                     v-model="newAd.link_url">
                             </div>
                     </div>
@@ -136,104 +144,105 @@
     
 </template>
 <script>
-import AppAdList from '@/components/AdList'
-import { FETCH_CAMPAIGNS, AD_NEW, FETCH_BEACONS, BEACON_UPDATE } from '@/store/actions.type'
-import { PURGE_BEACON } from '@/store/mutations.type'
-import { mapGetters } from 'vuex'
+import AppAdList from "@/components/AdList";
+import {
+  FETCH_CAMPAIGNS,
+  AD_NEW,
+  FETCH_BEACONS,
+  BEACON_UPDATE
+} from "@/store/actions.type";
+import { PURGE_BEACON } from "@/store/mutations.type";
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'AppCampaignShow',
-    data() {
-        return {
-            newAd: {
-                title: '',
-                description: '',
-                image_pre: '',
-                image_full: '',
-                video_url: '',
-                link_url: '',
-            },
-            selected: {},
-        }
+  name: "AppCampaignShow",
+  data() {
+    return {
+      newAd: {
+        title: "",
+        description: "",
+        image_pre: "",
+        image_full: "",
+        video_url: "",
+        link_url: ""
+      },
+      selected: {},
+      showDatosCampaña: true,
+    };
+  },
+  props: ["id"],
+  components: {
+    AppAdList
+  },
+  computed: {
+    ...mapGetters(["campaign", "beacons", "beacon"])
+  },
+  created() {
+    this.fetchCampaign();
+  },
+  methods: {
+    fetchCampaign() {
+        let startTime = Date.now();
+      return this.$store
+        .dispatch(FETCH_CAMPAIGNS, this.id)
+        .then(response => {
+          
+          this.$store.commit(PURGE_BEACON);
+          if (this.campaign.beacons.length > 0) {
+            this.fetchBeacon();
+          }
+          console.log("fetchCampaign total time: " + (Date.now() - startTime) + " ms ")
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    props: [
-        'id'
-    ],
-    components: {
-        AppAdList
+    fetchBeacons() {
+      this.$store.dispatch(FETCH_BEACONS);
     },
-    computed: {
-      ...mapGetters([
-        'campaign',
-        'beacons',
-        'beacon'
-      ])
+    fetchBeacon() {
+      this.$store.dispatch(FETCH_BEACONS, this.campaign.beacons[0].id);
     },
-    mounted() {
-        this.fetchCampaign()
+    showAdForm() {
+      console.log("Muestro Formulario");
+      $("#ad-modal").modal("show");
     },
-    methods: {
-        fetchCampaign() {
-           return this.$store.dispatch(FETCH_CAMPAIGNS, this.id)
-            .then((response) => {
-                //
-                console.log(this.campaign.beacons)
-                this.$store.commit(PURGE_BEACON);
-                if(this.campaign.beacons.length > 0) {
-                    console.log(this.campaign.beacons.length)
-                    this.fetchBeacon();
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-        },
-        fetchBeacons() {
-            this.$store.dispatch(FETCH_BEACONS)
-        },
-        fetchBeacon() {
-            this.$store.dispatch(FETCH_BEACONS, this.campaign.beacons[0].id)                     
-        },
-        showAdForm() {
-            console.log("Muestro Formulario")
-            $("#ad-modal").modal('show');
-        },
-        showBeaconForm() {
-            this.fetchBeacons();
-            $("#beacon-modal").modal('show'); 
-        },
-        saveBeacon() {
-            this.selected.campaign_id = this.id 
-            this.$store.dispatch(BEACON_UPDATE, this.selected)
-            this.fetchCampaign()
-            $('#beacon-modal').modal('toggle');
-        },
-        saveAd(){
-            let formData = new FormData();
-            formData.append('title', this.newAd.title)
-            formData.append('description', this.newAd.description)
-            formData.append('image_pre', this.newAd.image_pre)
-            formData.append('image_full', this.newAd.image_full)
-            formData.append('video_url', this.newAd.video_url)
-            formData.append('link_url', this.newAd.link_url)
-            formData.append('campaign_id', this.campaign.id)
-            console.log(formData)
-            this.$store.dispatch(AD_NEW, formData)
-            $('#ad-modal').modal('toggle');
-            this.fetchBeacons();
-        },
-        clearNewAd() {
-            this.newAd = {}
-        },
-        clearSelected() {
-            this.selected = {}
-        },
-        handleFileUpload(e) {
-            console.log(this.$refs.file_image_pre.files[0])
-            this.newAd.image_pre = this.$refs.file_image_pre.files[0];
-            this.newAd.image_full = this.$refs.file_image_full.files[0];
-        }
+    showBeaconForm() {
+      this.fetchBeacons();
+      $("#beacon-modal").modal("show");
+    },
+    saveBeacon() {
+      this.selected.campaign_id = this.id;
+      this.$store.dispatch(BEACON_UPDATE, this.selected);
+      $("#beacon-modal").modal("toggle");
+    },
+    saveAd() {
+      let formData = new FormData();
+      formData.append("title", this.newAd.title);
+      formData.append("description", this.newAd.description);
+      formData.append("image_pre", this.newAd.image_pre);
+      formData.append("image_full", this.newAd.image_full);
+      formData.append("video_url", this.newAd.video_url);
+      formData.append("link_url", this.newAd.link_url);
+      formData.append("campaign_id", this.campaign.id);
+      this.$store.dispatch(AD_NEW, formData);
+      $("#ad-modal").modal("toggle");
+      this.fetchCampaign();
+    },
+    clearNewAd() {
+      this.newAd = {};
+    },
+    clearSelected() {
+      this.selected = {};
+    },
+    handleFileUpload(e) {
+      console.log(this.$refs.file_image_pre.files[0]);
+      this.newAd.image_pre = this.$refs.file_image_pre.files[0];
+      this.newAd.image_full = this.$refs.file_image_full.files[0];
+    },
+    toggleDatosCampaña() {
+        this.showDatosCampaña = !this.showDatosCampaña;
     }
-    
-}
+  }
+};
 </script>

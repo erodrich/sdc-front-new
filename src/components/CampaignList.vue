@@ -2,24 +2,26 @@
 <div class="campaignlist">
     <div class="card">
         <div class="card-header">
-            <h5 class="float-left">Campañas&nbsp;&nbsp;</h5>
-            <span class="float-left"><a href="#" @click="showFormModal()"><i class="ion-plus" ></i></a></span>
+                <h5 class="d-flex justify-content-between align-items-center">
+                    Campañas
+                    <button type="button" class="btn btn-secondary" @click="showFormModal()"><i class="ion-plus"></i></button>
+                </h5>
         </div>
         <div class="card-body">
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
                 <thead>
                     <th>Nombre</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Activa</th>
-                    <th></th>   
+                    <th></th>
                 </thead>
                 <tbody>
                     <tr v-for="(campaign, index) in campaigns" :key="index">
                         <router-link 
                             :to="{ name: 'campaign', params: { id: campaign.id } }" 
-                            tag="td" 
-                            ><a>{{campaign.name}}</a>
+                            tag="td"> 
+                            <a>{{campaign.name}}</a>
                         </router-link>
                         <td>{{campaign.start_date}}</td>
                         <td>{{campaign.end_date}}</td>
@@ -28,9 +30,8 @@
                             <i v-else class="ion-close"></i>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-primary">
-                                Edit       
-                            </a>
+                            <button type="button" class="btn btn-outline-secondary"><i class="ion-edit"></i></button>
+                            <button type="button" class="btn btn-outline-secondary"><i class="ion-android-delete"></i></button>
                         </td>
                     </tr>
                 </tbody>
@@ -83,54 +84,49 @@
     
 </template>
 <script>
-import { FETCH_CAMPAIGNS, CAMPAIGN_NEW } from '@/store/actions.type'
-import { mapGetters } from 'vuex'
+import { FETCH_CAMPAIGNS, CAMPAIGN_NEW } from "@/store/actions.type";
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'CampaignList',
-    data() {
-        return {
-            newCampaign: {
-                name: '',
-                start_date: '',
-                end_date: '',
-                active: '',
-                client_id: '',
-            }
-        }
-    },    
-    computed: {
-      ...mapGetters([
-        'campaigns',
-        'getClientId'
-      ])
+  name: "CampaignList",
+  data() {
+    return {
+      newCampaign: {
+        name: "",
+        start_date: "",
+        end_date: "",
+        active: "",
+        client_id: ""
+      }
+    };
+  },
+  computed: {
+    ...mapGetters(["campaigns", "getClientId"])
+  },
+  mounted() {
+    this.fetchCampaigns();
+  },
+  methods: {
+    fetchCampaigns() {
+      this.$store.dispatch(FETCH_CAMPAIGNS);
     },
-    mounted() {
-        this.fetchCampaigns()
+    showFormModal() {
+      console.log("Mostrar");
+      this.clearNewCampaign();
+      $("#my-modal").modal("show");
     },
-    methods: {
-        fetchCampaigns(){
-            this.$store.dispatch(FETCH_CAMPAIGNS)
-        },
-        showFormModal() {
-            console.log("Mostrar")
-            this.clearNewCampaign()
-            $("#my-modal").modal('show');
-        },
-        clearNewCampaign() {
-            this.newCampaign.name = ''
-            this.newCampaign.start_date = ''
-            this.newCampaign.end_date = ''
-            this.newCampaign.active = ''
-        },
-        saveCampaign() {
-            this.newCampaign.client_id = this.getClientId;
-            this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
-            $('#my-modal').modal('toggle');
-            this.fetchCampaigns()
-        }
+    clearNewCampaign() {
+      this.newCampaign.name = "";
+      this.newCampaign.start_date = "";
+      this.newCampaign.end_date = "";
+      this.newCampaign.active = "";
+    },
+    saveCampaign() {
+      this.newCampaign.client_id = this.getClientId;
+      this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign);
+      $("#my-modal").modal("toggle");
+      this.fetchCampaigns();
     }
-
-    
-}
+  }
+};
 </script>
