@@ -36,6 +36,7 @@ const ApiService = {
         return Vue.axios.post(`${resource}`, params, extra)
     },
     update(resource, id, params){
+        console.log(params)
         return Vue.axios.put(`${resource}/${id}`, params)
     },
     put(resource, params){
@@ -61,7 +62,7 @@ export const CampaignsService = {
         return ApiService.post(resource, params)
     },
     update (id, params) {
-        return ApiService.update('campaigns', id, {campaign: params})
+        return ApiService.update('campaigns', id, params)
     },
     destroy (id){
         return ApiService.delete(`campaigns/${id}`)

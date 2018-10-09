@@ -4,7 +4,7 @@
         <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
                     Campañas
-                    <button type="button" class="btn btn-secondary" @click="showFormModal()"><i class="ion-plus"></i></button>
+                    <b-btn v-b-modal.modalPrevent @click="editFlag=false"><i class="ion-plus"></i></b-btn>
                 </h5>
         </div>
         <div class="card-body">
@@ -17,7 +17,7 @@
                     <th></th>
                 </thead>
                 <tbody>
-                    <tr v-for="(campaign, index) in campaigns" :key="index">
+                    <tr v-for="(campaign, index) in campaigns" :key="campaign.id">
                         <router-link 
                             :to="{ name: 'campaign', params: { id: campaign.id } }" 
                             tag="td"> 
@@ -30,62 +30,79 @@
                             <i v-else class="ion-close"></i>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-outline-secondary"><i class="ion-edit"></i></button>
-                            <button type="button" class="btn btn-outline-secondary"><i class="ion-android-delete"></i></button>
+                            <b-btn v-b-modal.modalPrevent variant="outline-secondary" @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn>
+                            <button type="button" class="btn btn-outline-secondary" @click="deleteCampaign(campaign.id)"><i class="ion-android-delete"></i></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- Nuevo Campaña -->
-    <div id="FormModal">
-        <div id="my-modal" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Nueva campaña</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form>
-                    <div class="modal-body">
-                        
-                            <div class="form-group">
-                                <label>Nombre de Campaña</label>
-                                <input type="text" class="form-control" placeholder="Page Title" value="About" v-model="newCampaign.name">
-                            </div>
-                            <div class="form-group">
-                                <label>Vigente desde:</label>
-                                <input type="text" class="form-control" name="start_date" placeholder="YYYY-MM-DD" v-model="newCampaign.start_date">
-                            </div>
-                            <div class="form-group">
-                                <label>Vigente hasta:</label>
-                                <input type="text" class="form-control" name="endt_date" placeholder="YYYY-MM-DD" v-model="newCampaign.end_date">
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios1" v-model="newCampaign.active" v-bind:value="1" checked>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Activar
-                                </label>
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="saveCampaign()">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearNewCampaign()">Cancelar</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
+
+
+    <!-- Modal Component -->
+    <b-modal id="modalPrevent"
+             ref="modal"
+             title="Nueva campaña"
+             @ok="handleOk"
+             @shown="atShown">
+      <form @submit.stop.prevent="handleSubmit">
+        <div class="form-group">
+            <label>Nombre de Campaña</label>
+            <input type="text" class="form-control" placeholder="Nombre de campaña" v-model="newCampaign.name">
         </div>
-    </div>
+        <div class="form-group">
+            <label>Vigente desde:</label>
+            <datepicker 
+                v-model="startDate"
+                placeholder="Fecha Inicio"
+                format="yyyy-MM-dd"
+                :bootstrap-styling="bootstrapStyling"
+                :language="es"
+                input-class="date"
+                >
+            </datepicker>
+        </div>
+        <div class="form-group">
+            <label>Vigente hasta:</label>
+            <datepicker 
+                v-model="endDate"
+                placeholder="Fecha Fin"
+                format="yyyy-MM-dd"
+                :bootstrap-styling="bootstrapStyling"
+                :language="es"
+                input-class="date"
+                >
+            </datepicker>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios1" v-model="newCampaign.active" v-bind:value="false">
+            <label class="form-check-label" for="exampleRadios1">
+                Deshabilitar
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios2" v-model="newCampaign.active" v-bind:value="true">
+            <label class="form-check-label" for="exampleRadios2">
+                Habilitar
+            </label>
+        </div>
+      </form>
+    </b-modal>
+
 </div>
     
 </template>
 <script>
-import { FETCH_CAMPAIGNS, CAMPAIGN_NEW } from "@/store/actions.type";
+import {
+  FETCH_CAMPAIGNS,
+  CAMPAIGN_NEW,
+  CAMPAIGN_DELETE,
+  CAMPAIGN_EDIT
+} from "@/store/actions.type";
 import { mapGetters } from "vuex";
+import Datepicker from "vuejs-datepicker";
+import { es } from "vuejs-datepicker/dist/locale";
 
 export default {
   name: "CampaignList",
@@ -97,23 +114,53 @@ export default {
         end_date: "",
         active: "",
         client_id: ""
-      }
+      },
+      editFlag: false,
+      es: es,
+      bootstrapStyling: true,
+      startDate: new Date(),
+      endDate: new Date()
     };
+  },
+  components: {
+    Datepicker
   },
   computed: {
     ...mapGetters(["campaigns", "getClientId"])
   },
-  mounted() {
+  created() {
     this.fetchCampaigns();
   },
   methods: {
     fetchCampaigns() {
       this.$store.dispatch(FETCH_CAMPAIGNS);
     },
-    showFormModal() {
-      console.log("Mostrar");
-      this.clearNewCampaign();
-      $("#my-modal").modal("show");
+    prepareEdit(campaign) {
+      this.editFlag = true;
+      this.newCampaign = Object.assign({}, campaign);
+      this.startDate = new Date(`${this.newCampaign.start_date}<`);
+      this.endDate = new Date(`${this.newCampaign.end_date}<`);
+    },
+    atShown() {
+      if (!this.editFlag) {
+        this.clearNewCampaign();
+      }
+    },
+    handleOk(evt) {
+      evt.preventDefault();
+      this.handleSubmit();
+      this.fetchCampaigns();
+    },
+    handleSubmit() {
+      this.newCampaign.client_id = this.getClientId;
+      this.newCampaign.start_date = this.startDate.toLocaleDateString("fr-CA");
+      this.newCampaign.end_date = this.endDate.toLocaleDateString("fr-CA");
+      if(!this.editFlag){
+        this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign);
+      } else {
+        this.$store.dispatch(CAMPAIGN_EDIT, this.newCampaign)
+      }
+      this.$refs.modal.hide();
     },
     clearNewCampaign() {
       this.newCampaign.name = "";
@@ -121,11 +168,14 @@ export default {
       this.newCampaign.end_date = "";
       this.newCampaign.active = "";
     },
-    saveCampaign() {
-      this.newCampaign.client_id = this.getClientId;
-      this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign);
-      $("#my-modal").modal("toggle");
+    deleteCampaign(id) {
+      if (confirm("Seguro que desea eliminar esta campaña?")) {
+        this.$store.dispatch(CAMPAIGN_DELETE, id);
+      }
       this.fetchCampaigns();
+    },
+    isActive(v){
+      return v == 1 ? true : false
     }
   }
 };

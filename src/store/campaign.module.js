@@ -2,6 +2,8 @@ import { CampaignsService } from '@/common/api.service'
 import {
   FETCH_CAMPAIGNS,
   CAMPAIGN_NEW,
+  CAMPAIGN_DELETE,
+  CAMPAIGN_EDIT,
 } from './actions.type'
 import {
   SET_CAMPAIGNS
@@ -15,7 +17,8 @@ const state = {
 }
 const getters = {
     campaigns (state) {
-        return state.campaigns
+        let campaigns = state.campaigns.sort((a, b) => (a.id < b.id ? 1 : -1));
+        return campaigns
     },
     campaign (state) {
         return state.campaign
@@ -33,7 +36,8 @@ const mutations = {
                     name: data[i].attributes.name,
                     start_date: data[i].attributes.start_date,
                     end_date: data[i].attributes.end_date,
-                    active: data[i].attributes.active == 1 ? true : false
+                    //active: data[i].attributes.active == 1 ? true : false
+                    active: data[i].attributes.active,
                 }
                 state.campaigns.push(campaign)
             }
@@ -43,7 +47,8 @@ const mutations = {
                 name: data.attributes.name,
                 start_date: data.attributes.start_date,
                 end_date: data.attributes.end_date,
-                active: data.attributes.active == 1 ? true : false,
+                //active: data.attributes.active == 1 ? true : false,
+                active: data.attributes.active,
                 ads: data.relationships.ads.data.length ? data.relationships.ads.data : null,
                 beacons: data.relationships.beacons.data
             }
@@ -64,7 +69,6 @@ const actions = {
         })
     },
     [CAMPAIGN_NEW] (context, campaign) {
-        console.log(campaign)
         return CampaignsService
         .create(campaign)
         .then((response) => {
@@ -72,6 +76,22 @@ const actions = {
         })
         .catch((error) => {
             console.log("Error en CAMPAIGN_NEW")
+        })
+    },
+    [CAMPAIGN_DELETE] (context, id){
+        console.log('Deleting: ' + id)
+        return CampaignsService
+        .destroy(id)
+    },
+    [CAMPAIGN_EDIT] (context, campaign) {
+        console.log("Updating: " + campaign)
+        return CampaignsService
+        .update(campaign.id, campaign)
+        .then((response) => {
+            console.log(JSON.stringify(response))
+        })
+        .catch((error) => {
+            console.log("Error: " + JSON.stringify(error))
         })
     }
 }

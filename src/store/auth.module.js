@@ -28,7 +28,7 @@ const getters = {
 
 const actions = {
     [LOGIN] (context, credentials) {
-       return new Promise((resolve) => {
+       return new Promise((resolve, reject) => {
            ApiService
            .post('login', {
                username: credentials.username,
@@ -43,7 +43,7 @@ const actions = {
                console.log("Response: " + error)
                context.commit(SET_ERROR, error)
            })
-       }) 
+       })
     },
     [USER_INFO] (context) {
         ApiService.setHeader()
