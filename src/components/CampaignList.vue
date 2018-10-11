@@ -4,7 +4,7 @@
         <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
                     Campañas
-                    <b-btn v-b-modal.modalPrevent @click="editFlag=false"><i class="ion-plus"></i></b-btn>
+                    <b-btn v-b-modal.modalNewCampaign @click="editFlag=false"><i class="ion-plus"></i></b-btn>
                 </h5>
         </div>
         <div class="card-body">
@@ -17,7 +17,7 @@
                     <th></th>
                 </thead>
                 <tbody>
-                    <tr v-for="(campaign, index) in campaigns" :key="campaign.id">
+                    <tr v-for="(campaign) in campaigns" :key="campaign.id">
                         <router-link 
                             :to="{ name: 'campaign', params: { id: campaign.id } }" 
                             tag="td"> 
@@ -30,7 +30,7 @@
                             <i v-else class="ion-close"></i>
                         </td>
                         <td>
-                            <b-btn v-b-modal.modalPrevent variant="outline-secondary" @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn>
+                            <b-btn v-b-modal.modalNewCampaign variant="outline-secondary" @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn>
                             <button type="button" class="btn btn-outline-secondary" @click="deleteCampaign(campaign.id)"><i class="ion-android-delete"></i></button>
                         </td>
                     </tr>
@@ -39,9 +39,8 @@
         </div>
     </div>
 
-
     <!-- Modal Component -->
-    <b-modal id="modalPrevent"
+    <b-modal id="modalNewCampaign"
              ref="modal"
              title="Nueva campaña"
              @ok="handleOk"

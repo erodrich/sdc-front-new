@@ -92,10 +92,11 @@ export const AdsService = {
         return ApiService.post('/ads', params,  {headers: {'Content-Type': 'multipart/form-data'}})
     },
     update (id, params) {
-        ApiService.setMultiPartHeader();
-        return ApiService.update('/ads', id, params)
+        //return ApiService.update('ads', id, params)
+        let resource = 'ads'
+        return Vue.axios.post(`${resource}/${id}`, params, {headers: {'Content-Type': 'multipart/form-data'}})
     },
-    destroy (campaign, id){
-        return ApiService.delete(`campaigns/${campaign}/ads/${id}`)
+    destroy (id){
+        return ApiService.delete(`ads/${id}`)
     }
 }

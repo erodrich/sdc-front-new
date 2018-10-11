@@ -237,6 +237,7 @@ export default {
     },
     handleFileUpload(e) {
       console.log(this.$refs.file_image_pre.files[0]);
+      console.log(this.$refs.file_image_full.files[0])
       this.newAd.image_pre = this.$refs.file_image_pre.files[0];
       this.newAd.image_full = this.$refs.file_image_full.files[0];
     },
