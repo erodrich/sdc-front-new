@@ -46,9 +46,13 @@
              @ok="handleOk"
              @shown="atShown">
       <form @submit.stop.prevent="handleSubmit">
-        <div class="form-group">
+        <div class="form-group" :class="{invalid: $v.name.$error}">
             <label>Nombre de Campaña</label>
-            <input type="text" class="form-control" placeholder="Nombre de campaña" v-model="newCampaign.name">
+            <input type="text" 
+                  class="form-control" 
+                  placeholder="Nombre de campaña"
+                  @blur="$v.name.$touch()" 
+                  v-model="name">
         </div>
         <div class="form-group">
             <label>Vigente desde:</label>
@@ -58,7 +62,7 @@
                 format="yyyy-MM-dd"
                 :bootstrap-styling="bootstrapStyling"
                 :language="es"
-                input-class="date"
+                input-class="date" 
                 >
             </datepicker>
         </div>
@@ -75,13 +79,13 @@
             </datepicker>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios1" v-model="newCampaign.active" v-bind:value="false">
+            <input class="form-check-input" type="radio" name="exampleRadios1" v-model="active" v-bind:value="false">
             <label class="form-check-label" for="exampleRadios1">
                 Deshabilitar
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios2" v-model="newCampaign.active" v-bind:value="true">
+            <input class="form-check-input" type="radio" name="exampleRadios2" v-model="active" v-bind:value="true">
             <label class="form-check-label" for="exampleRadios2">
                 Habilitar
             </label>
@@ -99,6 +103,7 @@ import {
   CAMPAIGN_DELETE,
   CAMPAIGN_EDIT
 } from "@/store/actions.type";
+import {required} from 'vuelidate/lib/validators'
 import { mapGetters } from "vuex";
 import Datepicker from "vuejs-datepicker";
 import { es } from "vuejs-datepicker/dist/locale";
@@ -107,13 +112,12 @@ export default {
   name: "CampaignList",
   data() {
     return {
-      newCampaign: {
-        name: "",
-        start_date: "",
-        end_date: "",
-        active: "",
-        client_id: ""
-      },
+      newCampaign: {},
+      name: "",
+      start_date: "",
+      end_date: "",
+      active: false,
+      client_id: "",
       editFlag: false,
       es: es,
       bootstrapStyling: true,
@@ -123,6 +127,11 @@ export default {
   },
   components: {
     Datepicker
+  },
+  validations: {
+    name: {
+      required
+    }
   },
   computed: {
     ...mapGetters(["campaigns", "getClientId"])
@@ -137,8 +146,8 @@ export default {
     prepareEdit(campaign) {
       this.editFlag = true;
       this.newCampaign = Object.assign({}, campaign);
-      this.startDate = new Date(`${this.newCampaign.start_date}<`);
-      this.endDate = new Date(`${this.newCampaign.end_date}<`);
+      this.startDate = new Date(`${this.start_date}<`);
+      this.endDate = new Date(`${this.end_date}<`);
     },
     atShown() {
       if (!this.editFlag) {
@@ -154,6 +163,8 @@ export default {
       this.newCampaign.client_id = this.getClientId;
       this.newCampaign.start_date = this.startDate.toLocaleDateString("fr-CA");
       this.newCampaign.end_date = this.endDate.toLocaleDateString("fr-CA");
+      this.newCampaign.name = this.name;
+      this.newCampaign.active = this.active;
       if(!this.editFlag){
         this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign);
       } else {
@@ -179,3 +190,10 @@ export default {
   }
 };
 </script>
+<style>
+.invalid input {
+  border: 1px solid red;
+  background-color:#ffd7c7;
+}
+</style>
+

@@ -30,6 +30,7 @@ const mutations = {
         data = data.data
         if(data instanceof Array){
             var i;
+            state.campaignsCount = data.length
             for(i = 0; i < data.length; i++){
                 const campaign = {
                     id: data[i].id,

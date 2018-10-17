@@ -90,14 +90,14 @@
                                 <input type="text" 
                                     class="form-control" 
                                     name="start_date" 
-                                    v-model="newAd.title">
+                                    v-model="title">
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
                                 <input type="text" 
                                     class="form-control" 
                                     name="start_date" 
-                                    v-model="newAd.description">
+                                    v-model="description">
                             </div>
                             <div class="form-group">
                                 <label>Imagen de Previsualización</label>
@@ -120,14 +120,14 @@
                                 <input type="text" 
                                     class="form-control" 
                                     name="endt_date" 
-                                    v-model="newAd.video_url">
+                                    v-model="video_url">
                             </div>
                             <div class="form-group">
                                 <label>Url link:</label>
                                 <input type="text" 
                                     class="form-control" 
                                     name="urlLink" 
-                                    v-model="newAd.link_url">
+                                    v-model="link_url">
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -144,6 +144,7 @@
     
 </template>
 <script>
+import {required} from 'vuelidate/lib/validators'
 import AppAdList from "@/components/AdList";
 import {
   FETCH_CAMPAIGNS,
@@ -158,17 +159,23 @@ export default {
   name: "AppCampaignShow",
   data() {
     return {
-      newAd: {
-        title: "",
-        description: "",
-        image_pre: "",
-        image_full: "",
-        video_url: "",
-        link_url: ""
-      },
+      title: "",
+      description: "",
+      image_pre: "",
+      image_full: "",
+      video_url: "",
+      link_url: "",
       selected: {},
       showDatosCampaña: true,
     };
+  },
+  validations: {
+      title: {
+          required
+      },
+      description: {
+          required
+      }
   },
   props: ["id"],
   components: {
@@ -218,19 +225,24 @@ export default {
     },
     saveAd() {
       let formData = new FormData();
-      formData.append("title", this.newAd.title);
-      formData.append("description", this.newAd.description);
-      formData.append("image_pre", this.newAd.image_pre);
-      formData.append("image_full", this.newAd.image_full);
-      formData.append("video_url", this.newAd.video_url);
-      formData.append("link_url", this.newAd.link_url);
+      formData.append("title", this.title);
+      formData.append("description", this.description);
+      formData.append("image_pre", this.image_pre);
+      formData.append("image_full", this.image_full);
+      formData.append("video_url", this.video_url);
+      formData.append("link_url", this.link_url);
       formData.append("campaign_id", this.campaign.id);
       this.$store.dispatch(AD_NEW, formData);
       $("#ad-modal").modal("toggle");
       this.fetchCampaign();
     },
     clearNewAd() {
-      this.newAd = {};
+      this.title = ""
+      this.description = ""
+      this.image_pre = ""
+      this.image_full = ""
+      this.video_url = ""
+      this.link_url = ""
     },
     clearSelected() {
       this.selected = {};
@@ -238,8 +250,8 @@ export default {
     handleFileUpload(e) {
       console.log(this.$refs.file_image_pre.files[0]);
       console.log(this.$refs.file_image_full.files[0])
-      this.newAd.image_pre = this.$refs.file_image_pre.files[0];
-      this.newAd.image_full = this.$refs.file_image_full.files[0];
+      this.image_pre = this.$refs.file_image_pre.files[0];
+      this.image_full = this.$refs.file_image_full.files[0];
     },
     toggleDatosCampaña() {
         this.showDatosCampaña = !this.showDatosCampaña;
@@ -247,3 +259,6 @@ export default {
   }
 };
 </script>
+<style>
+
+</style>
