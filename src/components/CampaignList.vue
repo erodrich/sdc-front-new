@@ -156,9 +156,11 @@ export default {
       this.newCampaign.start_date = this.startDate.toLocaleDateString("fr-CA");
       this.newCampaign.end_date = this.endDate.toLocaleDateString("fr-CA");
       if(!this.editFlag){
-        this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign);
+        this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
+        .then(res => this.fetchCampaigns())
       } else {
         this.$store.dispatch(CAMPAIGN_EDIT, this.newCampaign)
+        .then(res => this.fetchCampaigns())
       }
       this.$refs.modal.hide();
     },
@@ -170,7 +172,8 @@ export default {
     },
     deleteCampaign(id) {
       if (confirm("Seguro que desea eliminar esta campaña?")) {
-        this.$store.dispatch(CAMPAIGN_DELETE, id);
+        this.$store.dispatch(CAMPAIGN_DELETE, id)
+        .then(res => this.fetchCampaigns())
       }
       this.fetchCampaigns();
     },
