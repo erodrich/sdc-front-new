@@ -2,6 +2,8 @@ import { AdsService } from '@/common/api.service'
 import { FETCH_ADS } from '@/store/actions.type'
 import { AD_NEW } from '@/store/actions.type'
 import { SET_ADS } from '@/store/mutations.type'
+import { AD_EDIT } from './actions.type';
+import { AD_DELETE } from './actions.type';
 
 const state = {
     ads: [],
@@ -37,6 +39,20 @@ const actions = {
         .catch((error) => {
             console.log(error)
         })
+    },
+    [AD_EDIT] (context, ad) {
+        return AdsService
+        .update(ad.get('id'), ad)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log('Error: ' + JSON.stringify(error) )
+        })
+    },
+    [AD_DELETE] (context, id) {
+        return AdsService
+        .destroy(id)
     }
 
 }

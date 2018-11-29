@@ -12,23 +12,31 @@
                                     <div>{{getErrorMsg(errors)}}</div>
                                 </ul>
                                 <form action="#" @submit.prevent="login(username, password)">
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{invalid: $v.username.$error}">
                                         <input type="email" 
                                                 name="username" 
                                                 id="username" 
                                                 class="form-control form-control-lg"
                                                 placeholder="email"
+                                                @blur="$v.username.$touch()"
                                                 v-model="username">
+                                        <p v-if="$v.username.$error">Por favor introduzca su correo</p>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" :class="{invalid: $v.password.$error}">
                                         <input type="password" 
                                                 name="password" 
                                                 id="password" 
                                                 class="form-control form-control-lg"
-                                                placeholder="password" 
+                                                placeholder="password"
+                                                @blur="$v.password.$touch()" 
                                                 v-model="password">
+                                        <p v-if="$v.password.$error">Por favor introduzca su contraseña</p>
+
                                     </div>
-                                    <input type="submit" class="btn btn-outline-light btn-block" value="Entrar">
+                                    <input  type="submit" 
+                                            class="btn btn-info btn-block"
+                                            :disabled="$v.username.$error || $v.password.$error"
+                                            value="Entrar">
                                 </form>
                             </div>
                         </div>
@@ -40,6 +48,7 @@
 
 </template>
 <script>
+import {required, email} from 'vuelidate/lib/validators'
 import { mapState } from "vuex";
 import { LOGIN } from "@/store/actions.type";
 
@@ -50,6 +59,15 @@ export default {
       username: null,
       password: null
     };
+  },
+  validations: {
+    username: {
+      required,
+      email,
+    },
+    password: {
+      required,
+    }
   },
   methods: {
     login() {
@@ -105,6 +123,10 @@ export default {
   background-color: rgba(133, 186, 220, 1);
   border-radius: 15px;
 
+}
+.invalid input {
+  border: 1px solid red;
+  background-color:#ffd7c7;
 }
 </style>
 
