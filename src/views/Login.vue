@@ -83,6 +83,7 @@ export default {
     getErrorMsg(errors) {
       for (var k in errors) {
         if (k == "response") {
+          console.log(errors)
           return errors[k].data;
         }
       }

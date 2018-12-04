@@ -167,8 +167,10 @@ export default {
       this.newCampaign.active = this.active
       if (!this.editFlag) {
         this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
+          .then(res => this.fetchCampaigns())
       } else {
         this.$store.dispatch(CAMPAIGN_EDIT, this.newCampaign)
+          .then(res => this.fetchCampaigns())
       }
       this.$refs.modal.hide()
     },
@@ -181,11 +183,12 @@ export default {
     deleteCampaign (id) {
       if (confirm('Seguro que desea eliminar esta campaña?')) {
         this.$store.dispatch(CAMPAIGN_DELETE, id)
+          .then(res => this.fetchCampaigns())
       }
       this.fetchCampaigns()
     },
     isActive (v) {
-      return v == 1
+      return v === 1
     }
   }
 }
