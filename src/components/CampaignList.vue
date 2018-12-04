@@ -18,9 +18,9 @@
                 </thead>
                 <tbody>
                     <tr v-for="(campaign) in campaigns" :key="campaign.id">
-                        <router-link 
-                            :to="{ name: 'campaign', params: { id: campaign.id } }" 
-                            tag="td"> 
+                        <router-link
+                            :to="{ name: 'campaign', params: { id: campaign.id } }"
+                            tag="td">
                             <a>{{campaign.name}}</a>
                         </router-link>
                         <td>{{campaign.start_date}}</td>
@@ -48,27 +48,27 @@
       <form @submit.stop.prevent="handleSubmit">
         <div class="form-group" :class="{invalid: $v.name.$error}">
             <label>Nombre de Campaña</label>
-            <input type="text" 
-                  class="form-control" 
+            <input type="text"
+                  class="form-control"
                   placeholder="Nombre de campaña"
-                  @blur="$v.name.$touch()" 
+                  @blur="$v.name.$touch()"
                   v-model="name">
         </div>
         <div class="form-group">
             <label>Vigente desde:</label>
-            <datepicker 
+            <datepicker
                 v-model="startDate"
                 placeholder="Fecha Inicio"
                 format="yyyy-MM-dd"
                 :bootstrap-styling="bootstrapStyling"
                 :language="es"
-                input-class="date" 
+                input-class="date"
                 >
             </datepicker>
         </div>
         <div class="form-group">
             <label>Vigente hasta:</label>
-            <datepicker 
+            <datepicker
                 v-model="endDate"
                 placeholder="Fecha Fin"
                 format="yyyy-MM-dd"
@@ -94,7 +94,7 @@
     </b-modal>
 
 </div>
-    
+
 </template>
 <script>
 import {
@@ -102,28 +102,28 @@ import {
   CAMPAIGN_NEW,
   CAMPAIGN_DELETE,
   CAMPAIGN_EDIT
-} from "@/store/actions.type";
+} from '@/store/actions.type'
 import {required} from 'vuelidate/lib/validators'
-import { mapGetters } from "vuex";
-import Datepicker from "vuejs-datepicker";
-import { es } from "vuejs-datepicker/dist/locale";
+import { mapGetters } from 'vuex'
+import Datepicker from 'vuejs-datepicker'
+import { es } from 'vuejs-datepicker/dist/locale'
 
 export default {
-  name: "CampaignList",
-  data() {
+  name: 'CampaignList',
+  data () {
     return {
       newCampaign: {},
-      name: "",
-      start_date: "",
-      end_date: "",
+      name: '',
+      start_date: '',
+      end_date: '',
       active: false,
-      client_id: "",
+      client_id: '',
       editFlag: false,
       es: es,
       bootstrapStyling: true,
       startDate: new Date(),
       endDate: new Date()
-    };
+    }
   },
   components: {
     Datepicker
@@ -134,61 +134,61 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["campaigns", "getClientId"])
+    ...mapGetters(['campaigns', 'getClientId'])
   },
-  created() {
-    this.fetchCampaigns();
+  created () {
+    this.fetchCampaigns()
   },
   methods: {
-    fetchCampaigns() {
-      this.$store.dispatch(FETCH_CAMPAIGNS);
+    fetchCampaigns () {
+      this.$store.dispatch(FETCH_CAMPAIGNS)
     },
-    prepareEdit(campaign) {
-      this.editFlag = true;
-      this.newCampaign = Object.assign({}, campaign);
-      this.startDate = new Date(`${this.start_date}<`);
-      this.endDate = new Date(`${this.end_date}<`);
+    prepareEdit (campaign) {
+      this.editFlag = true
+      this.newCampaign = Object.assign({}, campaign)
+      this.startDate = new Date(`${this.start_date}<`)
+      this.endDate = new Date(`${this.end_date}<`)
     },
-    atShown() {
+    atShown () {
       if (!this.editFlag) {
-        this.clearNewCampaign();
+        this.clearNewCampaign()
       }
     },
-    handleOk(evt) {
-      evt.preventDefault();
-      this.handleSubmit();
-      this.fetchCampaigns();
+    handleOk (evt) {
+      evt.preventDefault()
+      this.handleSubmit()
+      this.fetchCampaigns()
     },
-    handleSubmit() {
-      this.newCampaign.client_id = this.getClientId;
-      this.newCampaign.start_date = this.startDate.toLocaleDateString("fr-CA");
-      this.newCampaign.end_date = this.endDate.toLocaleDateString("fr-CA");
-      this.newCampaign.name = this.name;
-      this.newCampaign.active = this.active;
-      if(!this.editFlag){
-        this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign);
+    handleSubmit () {
+      this.newCampaign.client_id = this.getClientId
+      this.newCampaign.start_date = this.startDate.toLocaleDateString('fr-CA')
+      this.newCampaign.end_date = this.endDate.toLocaleDateString('fr-CA')
+      this.newCampaign.name = this.name
+      this.newCampaign.active = this.active
+      if (!this.editFlag) {
+        this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
       } else {
         this.$store.dispatch(CAMPAIGN_EDIT, this.newCampaign)
       }
-      this.$refs.modal.hide();
+      this.$refs.modal.hide()
     },
-    clearNewCampaign() {
-      this.newCampaign.name = "";
-      this.newCampaign.start_date = "";
-      this.newCampaign.end_date = "";
-      this.newCampaign.active = "";
+    clearNewCampaign () {
+      this.newCampaign.name = ''
+      this.newCampaign.start_date = ''
+      this.newCampaign.end_date = ''
+      this.newCampaign.active = ''
     },
-    deleteCampaign(id) {
-      if (confirm("Seguro que desea eliminar esta campaña?")) {
-        this.$store.dispatch(CAMPAIGN_DELETE, id);
+    deleteCampaign (id) {
+      if (confirm('Seguro que desea eliminar esta campaña?')) {
+        this.$store.dispatch(CAMPAIGN_DELETE, id)
       }
-      this.fetchCampaigns();
+      this.fetchCampaigns()
     },
-    isActive(v){
-      return v == 1 ? true : false
+    isActive (v) {
+      return v == 1
     }
   }
-};
+}
 </script>
 <style>
 .invalid input {
@@ -196,4 +196,3 @@ export default {
   background-color:#ffd7c7;
 }
 </style>
-

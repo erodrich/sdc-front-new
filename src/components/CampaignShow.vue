@@ -55,7 +55,7 @@
                             <label class="mr-sm-2" for="inlineFormCustomSelect">Beacons</label>
                             <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" v-model="selected">
                                 <option selected disabled>Seleccione ...</option>
-                                <option v-for="mbeacon in beacons" 
+                                <option v-for="mbeacon in beacons"
                                     :value="mbeacon"
                                     :key="mbeacon.id"
                                     :disabled="!mbeacon.available">{{mbeacon.alias}}</option>
@@ -87,23 +87,23 @@
                     <div class="modal-body">
                             <div class="form-group">
                                 <label>Título</label>
-                                <input type="text" 
-                                    class="form-control" 
-                                    name="start_date" 
+                                <input type="text"
+                                    class="form-control"
+                                    name="start_date"
                                     v-model="title">
                             </div>
                             <div class="form-group">
                                 <label>Descripción</label>
-                                <input type="text" 
-                                    class="form-control" 
-                                    name="start_date" 
+                                <input type="text"
+                                    class="form-control"
+                                    name="start_date"
                                     v-model="description">
                             </div>
                             <div class="form-group">
                                 <label>Imagen de Previsualización</label>
                                 <input type="file"
                                     id="file_image_pre"
-                                    ref="file_image_pre" 
+                                    ref="file_image_pre"
                                     class="form-control"
                                     @change="handleFileUpload()">
                             </div>
@@ -117,16 +117,16 @@
                             </div>
                             <div class="form-group">
                                 <label>Video link:</label>
-                                <input type="text" 
-                                    class="form-control" 
-                                    name="endt_date" 
+                                <input type="text"
+                                    class="form-control"
+                                    name="endt_date"
                                     v-model="video_url">
                             </div>
                             <div class="form-group">
                                 <label>Url link:</label>
-                                <input type="text" 
-                                    class="form-control" 
-                                    name="urlLink" 
+                                <input type="text"
+                                    class="form-control"
+                                    name="urlLink"
                                     v-model="link_url">
                             </div>
                     </div>
@@ -141,123 +141,122 @@
     </div>
 
     </div>
-    
+
 </template>
 <script>
 import {required} from 'vuelidate/lib/validators'
-import AppAdList from "@/components/AdList";
+import AppAdList from '@/components/AdList'
 import {
   FETCH_CAMPAIGNS,
   AD_NEW,
   FETCH_BEACONS,
   BEACON_UPDATE
-} from "@/store/actions.type";
-import { PURGE_BEACON } from "@/store/mutations.type";
-import { mapGetters } from "vuex";
+} from '@/store/actions.type'
+import { PURGE_BEACON } from '@/store/mutations.type'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "AppCampaignShow",
-  data() {
+  name: 'AppCampaignShow',
+  data () {
     return {
-      title: "",
-      description: "",
-      image_pre: "",
-      image_full: "",
-      video_url: "",
-      link_url: "",
+      title: '',
+      description: '',
+      image_pre: '',
+      image_full: '',
+      video_url: '',
+      link_url: '',
       selected: {},
-      showDatosCampaña: true,
-    };
+      showDatosCampaña: true
+    }
   },
   validations: {
-      title: {
-          required
-      },
-      description: {
-          required
-      }
+    title: {
+      required
+    },
+    description: {
+      required
+    }
   },
-  props: ["id"],
+  props: ['id'],
   components: {
     AppAdList
   },
   computed: {
-    ...mapGetters(["campaign", "beacons", "beacon"])
+    ...mapGetters(['campaign', 'beacons', 'beacon'])
   },
-  created() {
-    this.fetchCampaign();
+  created () {
+    this.fetchCampaign()
   },
   methods: {
-    fetchCampaign() {
-        let startTime = Date.now();
+    fetchCampaign () {
+      let startTime = Date.now()
       return this.$store
         .dispatch(FETCH_CAMPAIGNS, this.id)
         .then(response => {
-          
-          this.$store.commit(PURGE_BEACON);
+          this.$store.commit(PURGE_BEACON)
           if (this.campaign.beacons.length > 0) {
-            this.fetchBeacon();
+            this.fetchBeacon()
           }
-          console.log("fetchCampaign total time: " + (Date.now() - startTime) + " ms ")
+          console.log('fetchCampaign total time: ' + (Date.now() - startTime) + ' ms ')
         })
         .catch(error => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
-    fetchBeacons() {
-      this.$store.dispatch(FETCH_BEACONS);
+    fetchBeacons () {
+      this.$store.dispatch(FETCH_BEACONS)
     },
-    fetchBeacon() {
-      this.$store.dispatch(FETCH_BEACONS, this.campaign.beacons[0].id);
+    fetchBeacon () {
+      this.$store.dispatch(FETCH_BEACONS, this.campaign.beacons[0].id)
     },
-    showAdForm() {
-      console.log("Muestro Formulario");
-      $("#ad-modal").modal("show");
+    showAdForm () {
+      console.log('Muestro Formulario')
+      $('#ad-modal').modal('show')
     },
-    showBeaconForm() {
-      this.fetchBeacons();
-      $("#beacon-modal").modal("show");
+    showBeaconForm () {
+      this.fetchBeacons()
+      $('#beacon-modal').modal('show')
     },
-    saveBeacon() {
-      this.selected.campaign_id = this.id;
-      this.$store.dispatch(BEACON_UPDATE, this.selected);
-      $("#beacon-modal").modal("toggle");
+    saveBeacon () {
+      this.selected.campaign_id = this.id
+      this.$store.dispatch(BEACON_UPDATE, this.selected)
+      $('#beacon-modal').modal('toggle')
     },
-    saveAd() {
-      let formData = new FormData();
-      formData.append("title", this.title);
-      formData.append("description", this.description);
-      formData.append("image_pre", this.image_pre);
-      formData.append("image_full", this.image_full);
-      formData.append("video_url", this.video_url);
-      formData.append("link_url", this.link_url);
-      formData.append("campaign_id", this.campaign.id);
-      this.$store.dispatch(AD_NEW, formData);
-      $("#ad-modal").modal("toggle");
-      this.fetchCampaign();
+    saveAd () {
+      let formData = new FormData()
+      formData.append('title', this.title)
+      formData.append('description', this.description)
+      formData.append('image_pre', this.image_pre)
+      formData.append('image_full', this.image_full)
+      formData.append('video_url', this.video_url)
+      formData.append('link_url', this.link_url)
+      formData.append('campaign_id', this.campaign.id)
+      this.$store.dispatch(AD_NEW, formData)
+      $('#ad-modal').modal('toggle')
+      this.fetchCampaign()
     },
-    clearNewAd() {
-      this.title = ""
-      this.description = ""
-      this.image_pre = ""
-      this.image_full = ""
-      this.video_url = ""
-      this.link_url = ""
+    clearNewAd () {
+      this.title = ''
+      this.description = ''
+      this.image_pre = ''
+      this.image_full = ''
+      this.video_url = ''
+      this.link_url = ''
     },
-    clearSelected() {
-      this.selected = {};
+    clearSelected () {
+      this.selected = {}
     },
-    handleFileUpload(e) {
-      console.log(this.$refs.file_image_pre.files[0]);
+    handleFileUpload (e) {
+      console.log(this.$refs.file_image_pre.files[0])
       console.log(this.$refs.file_image_full.files[0])
-      this.image_pre = this.$refs.file_image_pre.files[0];
-      this.image_full = this.$refs.file_image_full.files[0];
+      this.image_pre = this.$refs.file_image_pre.files[0]
+      this.image_full = this.$refs.file_image_full.files[0]
     },
-    toggleDatosCampaña() {
-        this.showDatosCampaña = !this.showDatosCampaña;
+    toggleDatosCampaña () {
+      this.showDatosCampaña = !this.showDatosCampaña
     }
   }
-};
+}
 </script>
 <style>
 

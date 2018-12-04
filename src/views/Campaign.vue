@@ -27,26 +27,26 @@ import AppCampaignList from '@/components/CampaignList'
 import AppCampaignShow from '@/components/CampaignShow'
 
 export default {
-    name: 'Campaign',
-    data() {
-      return {
-        id: ''
-      }
-    },
-    components: {
-        AppSidebar,
-        AppCampaignList,
-        AppCampaignShow,
-    },
-    computed: {
-        campaignId() {
-          if(this.$route.params.id){
-            this.id = this.$route.params.id
-            return true
-          } else {
-            return false
-          }
-        }
+  name: 'Campaign',
+  data () {
+    return {
+      id: ''
     }
+  },
+  components: {
+    AppSidebar,
+    AppCampaignList,
+    AppCampaignShow
+  },
+  computed: {
+    campaignId () {
+      if (this.$route.params.id) {
+        this.id = this.$route.params.id
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 }
 </script>

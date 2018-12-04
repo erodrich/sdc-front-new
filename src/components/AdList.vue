@@ -9,7 +9,7 @@
                     <thead>
                         <th>Titulo</th>
                         <th>Creado</th>
-                        <th></th>   
+                        <th></th>
                     </thead>
                     <tbody>
                         <tr v-for="(ad) in ads" :key="ad.id">
@@ -24,7 +24,7 @@
                 </table>
             </div>
         </div>
-        
+
         <!-- Detalle Anuncio -->
         <div id="AdModal">
             <div id="my-modal" class="modal fade">
@@ -63,23 +63,23 @@
       <form @submit.stop.prevent="handleSubmit">
             <div class="form-group">
                 <label>Título</label>
-                <input type="text" 
-                    class="form-control" 
-                    name="start_date" 
+                <input type="text"
+                    class="form-control"
+                    name="start_date"
                     v-model="newAd.title">
             </div>
             <div class="form-group">
                 <label>Descripción</label>
-                <input type="text" 
-                    class="form-control" 
-                    name="start_date" 
+                <input type="text"
+                    class="form-control"
+                    name="start_date"
                     v-model="newAd.description">
             </div>
             <div class="form-group">
                 <label>Imagen de Previsualización</label>
                 <input type="file"
                     id="file_image_pre"
-                    ref="file_image_pre" 
+                    ref="file_image_pre"
                     class="form-control"
                     :placeholder="newAd.image_pre_name"
                     @change="handleFileUpload()">
@@ -95,16 +95,16 @@
             </div>
             <div class="form-group">
                 <label>Video link:</label>
-                <input type="text" 
-                    class="form-control" 
-                    name="endt_date" 
+                <input type="text"
+                    class="form-control"
+                    name="endt_date"
                     v-model="newAd.video_url">
             </div>
             <div class="form-group">
                 <label>Url link:</label>
-                <input type="text" 
-                    class="form-control" 
-                    name="urlLink" 
+                <input type="text"
+                    class="form-control"
+                    name="urlLink"
                     v-model="newAd.link_url">
             </div>
       </form>
@@ -112,71 +112,69 @@
     </div>
 </template>
 <script>
-import { FETCH_ADS, AD_EDIT, AD_DELETE } from "@/store/actions.type";
-import { mapGetters } from "vuex";
+import { FETCH_ADS, AD_EDIT, AD_DELETE } from '@/store/actions.type'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "AppAdList",
-  data() {
+  name: 'AppAdList',
+  data () {
     return {
       modalAd: {},
       newAd: {}
-    };
+    }
   },
   computed: {
-    ...mapGetters(["ads", 'campaign'])
+    ...mapGetters(['ads', 'campaign'])
   },
-  mounted() {
-    this.fetchAds();
+  mounted () {
+    this.fetchAds()
   },
   methods: {
-    fetchAds() {
-      this.$store.dispatch(FETCH_ADS, { campaign: this.$route.params.id });
+    fetchAds () {
+      this.$store.dispatch(FETCH_ADS, { campaign: this.$route.params.id })
     },
-    view(ad) {
-      this.modalAd = ad;
-      $("#my-modal").modal("show");
+    view (ad) {
+      this.modalAd = ad
+      $('#my-modal').modal('show')
     },
-    handleFileUpload(e) {
-      console.log(this.$refs.file_image_pre.files[0]);
-      this.newAd.image_pre = this.$refs.file_image_pre.files[0];
-      this.newAd.image_full = this.$refs.file_image_full.files[0];
+    handleFileUpload (e) {
+      this.newAd.image_pre = this.$refs.file_image_pre.files[0]
+      this.newAd.image_full = this.$refs.file_image_full.files[0]
     },
-    prepareEdit(ad) {
-        this.newAd = Object.assign({}, ad);
+    prepareEdit (ad) {
+      this.newAd = Object.assign({}, ad)
     },
-    atShown() {
+    atShown () {
     },
-    handleOk(evt) {
-        evt.preventDefault();
-        this.handleSubmit();
-        this.fetchAds();
+    handleOk (evt) {
+      evt.preventDefault()
+      this.handleSubmit()
+      this.fetchAds()
     },
-    handleSubmit() {
-      let formData = new FormData();
-      formData.append('_method', 'PUT');
-      formData.append("id", this.newAd.id);
-      formData.append("title", this.newAd.title);
-      formData.append("description", this.newAd.description);
-      formData.append("image_pre", this.newAd.image_pre);
-      formData.append("image_full", this.newAd.image_full);
-      formData.append("video_url", this.newAd.video_url);
-      formData.append("link_url", this.newAd.link_url);
-      formData.append("campaign_id", this.campaign.id);
+    handleSubmit () {
+      let formData = new FormData()
+      formData.append('_method', 'PUT')
+      formData.append('id', this.newAd.id)
+      formData.append('title', this.newAd.title)
+      formData.append('description', this.newAd.description)
+      formData.append('image_pre', this.newAd.image_pre)
+      formData.append('image_full', this.newAd.image_full)
+      formData.append('video_url', this.newAd.video_url)
+      formData.append('link_url', this.newAd.link_url)
+      formData.append('campaign_id', this.campaign.id)
       console.log(formData.get('campaign_id'))
-      this.$store.dispatch(AD_EDIT, formData);
-      this.$refs.modalAd.hide();
+      this.$store.dispatch(AD_EDIT, formData)
+      this.$refs.modalAd.hide()
     },
-    clearNewAd() {
-        this.newAd = {}
+    clearNewAd () {
+      this.newAd = {}
     },
-    deleteAd(id){
-      if (confirm("Seguro que desea eliminar este anuncio?")) {
-        this.$store.dispatch(AD_DELETE, id);
+    deleteAd (id) {
+      if (confirm('Seguro que desea eliminar este anuncio?')) {
+        this.$store.dispatch(AD_DELETE, id)
       }
-      this.fetchAds();
+      this.fetchAds()
     }
   }
-};
+}
 </script>
-
