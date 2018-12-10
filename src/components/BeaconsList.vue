@@ -2,10 +2,10 @@
 <div class="beaconstable">
     <div class="card">
         <div class="card-header">
-            <h6>Listado de Beacons</h6>
+            <h5>Beacons</h5>
         </div>
         <div class="card-body">
-            <table class="table table-striped table-hover">
+            <table class="table table-hover mt-1">
                 <thead>
                     <th>Alias</th>
                     <th>Creado</th>
@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-    
+
 </template>
 <script>
 import { mapGetters } from 'vuex';
@@ -44,6 +44,6 @@ export default {
             console.log('Aqui muestro el detalle del beacon')
         }
     }
-    
+
 }
 </script>

@@ -4,7 +4,7 @@ $color3: rgba(253, 254, 255, 1);
 $color4: rgba(113, 200, 237, 1);
 $color5: rgba(92, 187, 230, 1);
 
-$primary-color-dark: $color1;
+$primary-color-dark: #56CBF9;
 $primary-color:        #F44336;
 $primary-color-light:  #FFCDD2;
 $primary-color-text:   #FFFFFF;
@@ -18,6 +18,11 @@ body {
     background: $primary-color-dark;
     color: $primary-color-text;
     font-size: 0.8em;
+}
+.title{
+    background-color: #FCFCFC;
+    border-radius: 5px;
+    color: #063346;
 }
 .navbar {
     border-bottom: $divider-color 3px solid;

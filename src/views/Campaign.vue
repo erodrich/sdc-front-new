@@ -1,51 +1,48 @@
 <template>
-  <div class="campaigns-page">
-    <div class="header">
-      <div class="container">
-        <h1>Campañas</h1>
-        <p>Organice sus anuncios en campañas y asigne la campaña a un beacon</p>
-      </div>
-    </div>
     <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <app-sidebar></app-sidebar>
-        </div>
-        <div class="col-md-9">
-          <div v-if="!campaignId" class="row">
+        <div v-if="!campaignId">
             <app-campaign-list></app-campaign-list>
-          </div>
-            <app-campaign-show v-else :id="id"></app-campaign-show>
         </div>
-      </div>
+        <app-campaign-show v-else :id="id"></app-campaign-show>
     </div>
-  </div>
 </template>
 <script>
-import AppSidebar from '@/components/TheSidebar'
 import AppCampaignList from '@/components/CampaignList'
 import AppCampaignShow from '@/components/CampaignShow'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'Campaign',
   data () {
     return {
-      id: ''
+      id: '',
     }
   },
   components: {
-    AppSidebar,
     AppCampaignList,
     AppCampaignShow
   },
   computed: {
+    ...mapGetters(['campaigns']),
     campaignId () {
+      let answer = false
+      let ids = this.campaigns.map(ob => ob.id)
+      this.id = this.$route.params.id
       if (this.$route.params.id) {
-        this.id = this.$route.params.id
-        return true
-      } else {
-        return false
+        answer = this.validateId(this.$route.params.id, ids)
       }
+      return answer
+    }
+  },
+  methods: {
+    validateId(id, ids){
+      let isValid = false
+      ids.forEach(n => {
+        if(n === id){
+          isValid = true
+        }
+      })
+      return isValid
     }
   }
 }

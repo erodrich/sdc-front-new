@@ -26,7 +26,6 @@ const ApiService = {
     let x = resource
     id !== '' ? x += `/${id}` : x
     return Vue.axios
-    // .get(`${resource}/${id}`)
       .get(`${x}`)
       .catch((error) => {
         throw new Error(`[SDC] ApiService ::: get ::: ${error}`)

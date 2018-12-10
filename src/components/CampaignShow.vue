@@ -1,144 +1,146 @@
 <template>
     <div class="campaignshow">
-        <div class="row">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="d-flex justify-content-between align-items-center">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="d-flex justify-content-between align-items-center">
                     Datos de Campaña
                     <button type="button" class="btn btn-secondary" @click="toggleDatosCampaña()">
                         <i :class="showDatosCampaña ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
                     </button>
                 </h5>
-                </div>
-                <div v-if="showDatosCampaña" class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-3">Campaña: </dt>
-                        <dd class="col-sm-9">{{ campaign.name }}</dd>
-                        <dt class="col-sm-3">Fecha Inicio: </dt>
-                        <dd class="col-sm-9">{{ campaign.start_date }}</dd>
-                        <dt class="col-sm-3">Fecha Fin:</dt>
-                        <dd class="col-sm-9">{{ campaign.end_date }}</dd>
-                        <dt class="col-sm-3">Estado:</dt>
-                        <dd class="col-sm-9">
-                            {{campaign.active == 1 ? "Activo" : "Inactivo"}}
-                        </dd>
-                        <template v-if="beacon.id">
-                            <dt class="col-sm-3">Beacon:</dt>
-                            <dd class="col-sm-9">{{ beacon.alias }}</dd>
-                        </template>
-                    </dl>
-                </div>
-                <div class="card-footer">
-                    <button type="button" class="btn btn-primary" @click="showAdForm()">Añadir Anuncio</button>
-                    <button type="button" class="btn btn-primary" @click="showBeaconForm()">Seleccionar Beacon</button>
-                </div>
+            </div>
+            <div v-if="showDatosCampaña" class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Campaña:</dt>
+                    <dd class="col-sm-9">{{ campaign.name }}</dd>
+                    <dt class="col-sm-3">Fecha Inicio:</dt>
+                    <dd class="col-sm-9">{{ campaign.start_date }}</dd>
+                    <dt class="col-sm-3">Fecha Fin:</dt>
+                    <dd class="col-sm-9">{{ campaign.end_date }}</dd>
+                    <dt class="col-sm-3">Estado:</dt>
+                    <dd class="col-sm-9">
+                        {{campaign.active == 1 ? 'Activo' : 'Inactivo'}}
+                    </dd>
+                    <template v-if="beacon.id">
+                        <dt class="col-sm-3">Beacon:</dt>
+                        <dd class="col-sm-9">{{ beacon.alias }}</dd>
+                    </template>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" @click="showAdForm()">Añadir Anuncio</button>
+                <button type="button" class="btn btn-primary" @click="showBeaconForm()">Seleccionar Beacon</button>
             </div>
         </div>
 
-        <div class="row">
-            <app-ad-list v-if="this.campaign.ads"></app-ad-list>
-        </div>
-    <!-- Select Beacon -->
-    <div id="FormSelectBeaconModal">
-        <div id="beacon-modal" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Seleccione un beacon</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="mr-sm-2" for="inlineFormCustomSelect">Beacons</label>
-                            <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" v-model="selected">
-                                <option selected disabled>Seleccione ...</option>
-                                <option v-for="mbeacon in beacons"
-                                    :value="mbeacon"
-                                    :key="mbeacon.id"
-                                    :disabled="!mbeacon.available">{{mbeacon.alias}}</option>
-                            </select>
+        <app-ad-list v-if="this.campaign.ads"></app-ad-list>
+        <!-- Select Beacon -->
+        <div id="FormSelectBeaconModal">
+            <div id="beacon-modal" class="modal fade">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Seleccione un beacon</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+                        <form>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="mr-sm-2" for="inlineFormCustomSelect">Beacons</label>
+                                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect"
+                                            v-model="selected">
+                                        <option selected disabled>Seleccione ...</option>
+                                        <option v-for="mbeacon in beacons"
+                                                :value="mbeacon"
+                                                :key="mbeacon.id"
+                                                :disabled="!mbeacon.available">{{mbeacon.alias}}
+                                        </option>
+                                    </select>
+                                </div>
 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" @click="saveBeacon()">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        @click="clearSelected()">Cancelar
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="saveBeacon()">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearSelected()">Cancelar</button>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Nuevo Anuncio -->
-    <div id="FormAdModal">
-        <div id="ad-modal" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Nuevo Anuncio</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        <!-- Nuevo Anuncio -->
+        <div id="FormAdModal">
+            <div id="ad-modal" class="modal fade">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nuevo Anuncio</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Título</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="start_date"
+                                           v-model="title">
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="start_date"
+                                           v-model="description">
+                                </div>
+                                <div class="form-group">
+                                    <label>Imagen de Previsualización</label>
+                                    <input type="file"
+                                           id="file_image_pre"
+                                           ref="file_image_pre"
+                                           class="form-control"
+                                           @change="handleFileUpload()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Imagen principal</label>
+                                    <input type="file"
+                                           id="file_image_full"
+                                           ref="file_image_full"
+                                           class="form-control"
+                                           @change="handleFileUpload()">
+                                </div>
+                                <div class="form-group">
+                                    <label>Video link:</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="endt_date"
+                                           v-model="video_url">
+                                </div>
+                                <div class="form-group">
+                                    <label>Url link:</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="urlLink"
+                                           v-model="link_url">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" @click="saveAd()">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                        @click="clearNewAd()">Cancelar
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <form>
-                    <div class="modal-body">
-                            <div class="form-group">
-                                <label>Título</label>
-                                <input type="text"
-                                    class="form-control"
-                                    name="start_date"
-                                    v-model="title">
-                            </div>
-                            <div class="form-group">
-                                <label>Descripción</label>
-                                <input type="text"
-                                    class="form-control"
-                                    name="start_date"
-                                    v-model="description">
-                            </div>
-                            <div class="form-group">
-                                <label>Imagen de Previsualización</label>
-                                <input type="file"
-                                    id="file_image_pre"
-                                    ref="file_image_pre"
-                                    class="form-control"
-                                    @change="handleFileUpload()">
-                            </div>
-                            <div class="form-group">
-                                <label>Imagen principal</label>
-                                <input type="file"
-                                    id="file_image_full"
-                                    ref="file_image_full"
-                                    class="form-control"
-                                    @change="handleFileUpload()">
-                            </div>
-                            <div class="form-group">
-                                <label>Video link:</label>
-                                <input type="text"
-                                    class="form-control"
-                                    name="endt_date"
-                                    v-model="video_url">
-                            </div>
-                            <div class="form-group">
-                                <label>Url link:</label>
-                                <input type="text"
-                                    class="form-control"
-                                    name="urlLink"
-                                    v-model="link_url">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="saveAd()">Guardar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearNewAd()">Cancelar</button>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
     </div>
 
@@ -152,8 +154,8 @@ import {
   FETCH_BEACONS,
   BEACON_UPDATE
 } from '@/store/actions.type'
-import { PURGE_BEACON } from '@/store/mutations.type'
-import { mapGetters } from 'vuex'
+import {PURGE_BEACON} from '@/store/mutations.type'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'AppCampaignShow',

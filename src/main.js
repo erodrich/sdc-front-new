@@ -8,17 +8,16 @@ import store from '@/store'
 import { CHECK_AUTH } from '@/store/actions.type'
 
 import ApiService from '@/common/api.service'
-//import DateFilter from '@/common/date.filter'
+// import DateFilter from '@/common/date.filter'
 import ErrorFilter from '@/common/error.filter'
 import BootstrapVue from 'bootstrap-vue'
 
-
 Vue.config.productionTip = false
 Vue.config.ignoredElements = [/^ion-/]
-//Vue.filter('date', DateFilter)
+// Vue.filter('date', DateFilter)
 Vue.filter('error', ErrorFilter)
-Vue.use(BootstrapVue);
-Vue.use(Vuelidate);
+Vue.use(BootstrapVue)
+Vue.use(Vuelidate)
 ApiService.init()
 
 // Ensure we checked auth before each page load.
@@ -36,7 +35,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (!store.getters.isAuthenticated) {
       next({
-        name: 'login',
+        name: 'login'
       })
     } else {
       next()
@@ -52,5 +51,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App } 
+  components: { App }
 })

@@ -1,8 +1,7 @@
 <template>
-<section class="homestats">
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Overview</h5>
+            <h5 class="card-title">Estadísticas</h5>
         </div>
         <div class="card-body">
             <div class="card-deck">
@@ -25,12 +24,9 @@
         </div>
     </div>
 
-</section>
-    
 </template>
 <script>
 export default {
-    name: 'AppHomeStats'
+  name: 'AppHomeStats'
 }
 </script>
-

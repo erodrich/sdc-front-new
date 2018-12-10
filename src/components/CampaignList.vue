@@ -1,26 +1,26 @@
 <template>
-<div class="campaignlist">
-    <div class="card">
-        <div class="card-header">
+    <div class="campaignlist">
+        <div class="card">
+            <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
                     Campañas
                     <b-btn v-b-modal.modalNewCampaign @click="editFlag=false"><i class="ion-plus"></i></b-btn>
                 </h5>
-        </div>
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover mt-1">
+                    <thead>
                     <th>Nombre</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Activa</th>
                     <th></th>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr v-for="(campaign) in campaigns" :key="campaign.id">
                         <router-link
-                            :to="{ name: 'campaign', params: { id: campaign.id } }"
-                            tag="td">
+                                :to="{ name: 'campaign', params: { id: campaign.id } }"
+                                tag="td">
                             <a>{{campaign.name}}</a>
                         </router-link>
                         <td>{{campaign.start_date}}</td>
@@ -30,70 +30,74 @@
                             <i v-else class="ion-close"></i>
                         </td>
                         <td>
-                            <b-btn v-b-modal.modalNewCampaign variant="outline-secondary" @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn>
-                            <button type="button" class="btn btn-outline-secondary" @click="deleteCampaign(campaign.id)"><i class="ion-android-delete"></i></button>
+                            <b-btn v-b-modal.modalNewCampaign variant="outline-secondary"
+                                   @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn>
+                            <button type="button" class="btn btn-outline-secondary"
+                                    @click="deleteCampaign(campaign.id)"><i class="ion-android-delete"></i></button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <!-- Modal Component -->
+        <b-modal id="modalNewCampaign"
+                 ref="modal"
+                 title="Nueva campaña"
+                 @ok="handleOk"
+                 @shown="atShown">
+            <form @submit.stop.prevent="handleSubmit">
+                <div class="form-group" :class="{invalid: $v.name.$error}">
+                    <label>Nombre de Campaña</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Nombre de campaña"
+                           @blur="$v.name.$touch()"
+                           v-model="name">
+                </div>
+                <div class="form-group">
+                    <label>Vigente desde:</label>
+                    <datepicker
+                            v-model="startDate"
+                            placeholder="Fecha Inicio"
+                            format="yyyy-MM-dd"
+                            :bootstrap-styling="bootstrapStyling"
+                            :language="es"
+                            input-class="date"
+                    >
+                    </datepicker>
+                </div>
+                <div class="form-group">
+                    <label>Vigente hasta:</label>
+                    <datepicker
+                            v-model="endDate"
+                            placeholder="Fecha Fin"
+                            format="yyyy-MM-dd"
+                            :bootstrap-styling="bootstrapStyling"
+                            :language="es"
+                            input-class="date"
+                    >
+                    </datepicker>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios1" v-model="active"
+                           v-bind:value="false">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Deshabilitar
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios2" v-model="active"
+                           v-bind:value="true">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Habilitar
+                    </label>
+                </div>
+            </form>
+        </b-modal>
+
     </div>
-
-    <!-- Modal Component -->
-    <b-modal id="modalNewCampaign"
-             ref="modal"
-             title="Nueva campaña"
-             @ok="handleOk"
-             @shown="atShown">
-      <form @submit.stop.prevent="handleSubmit">
-        <div class="form-group" :class="{invalid: $v.name.$error}">
-            <label>Nombre de Campaña</label>
-            <input type="text"
-                  class="form-control"
-                  placeholder="Nombre de campaña"
-                  @blur="$v.name.$touch()"
-                  v-model="name">
-        </div>
-        <div class="form-group">
-            <label>Vigente desde:</label>
-            <datepicker
-                v-model="startDate"
-                placeholder="Fecha Inicio"
-                format="yyyy-MM-dd"
-                :bootstrap-styling="bootstrapStyling"
-                :language="es"
-                input-class="date"
-                >
-            </datepicker>
-        </div>
-        <div class="form-group">
-            <label>Vigente hasta:</label>
-            <datepicker
-                v-model="endDate"
-                placeholder="Fecha Fin"
-                format="yyyy-MM-dd"
-                :bootstrap-styling="bootstrapStyling"
-                :language="es"
-                input-class="date"
-                >
-            </datepicker>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios1" v-model="active" v-bind:value="false">
-            <label class="form-check-label" for="exampleRadios1">
-                Deshabilitar
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios2" v-model="active" v-bind:value="true">
-            <label class="form-check-label" for="exampleRadios2">
-                Habilitar
-            </label>
-        </div>
-      </form>
-    </b-modal>
-
-</div>
 
 </template>
 <script>
@@ -104,9 +108,9 @@ import {
   CAMPAIGN_EDIT
 } from '@/store/actions.type'
 import {required} from 'vuelidate/lib/validators'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import Datepicker from 'vuejs-datepicker'
-import { es } from 'vuejs-datepicker/dist/locale'
+import {es} from 'vuejs-datepicker/dist/locale'
 
 export default {
   name: 'CampaignList',
@@ -194,8 +198,8 @@ export default {
 }
 </script>
 <style>
-.invalid input {
-  border: 1px solid red;
-  background-color:#ffd7c7;
-}
+    .invalid input {
+        border: 1px solid red;
+        background-color: #ffd7c7;
+    }
 </style>
