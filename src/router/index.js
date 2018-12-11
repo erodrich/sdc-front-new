@@ -19,6 +19,15 @@ export default new Router({
           }
         },
         {
+          name: 'campaignForm',
+          path: '/campaigns/edit/:id?',
+          component: () => import('@/views/CampaignEdit'),
+          props: true,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
           name: 'campaign',
           path: '/campaigns/:id?',
           component: () => import('@/views/Campaign'),
@@ -28,9 +37,9 @@ export default new Router({
           }
         },
         {
-          name: 'campaignForm',
-          path: '/campaigns/edit',
-          component: () => import('@/views/CampaignEdit'),
+          name: 'adForm',
+          path: '/ads/edit',
+          component: () => import('@/views/AdEdit'),
           props: true,
           meta: {
             requiresAuth: true

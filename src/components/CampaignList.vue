@@ -4,7 +4,12 @@
             <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
                     Campañas
-                    <b-btn v-b-modal.modalNewCampaign @click="editFlag=false"><i class="ion-plus"></i></b-btn>
+                    <!-- <b-btn v-b-modal.modalNewCampaign @click="editFlag=false"><i class="ion-plus"></i></b-btn> -->
+                    <router-link active-class="active"
+                                 :to="{ name: 'campaignForm', id: '' }"
+                                 tag="b-btn">
+                        <i class="ion-plus"></i>
+                    </router-link>
                 </h5>
             </div>
             <div class="card-body">
@@ -30,8 +35,13 @@
                             <i v-else class="ion-close"></i>
                         </td>
                         <td>
-                            <b-btn v-b-modal.modalNewCampaign variant="outline-secondary"
-                                   @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn>
+                            <!-- <b-btn v-b-modal.modalNewCampaign variant="outline-secondary"
+                                   @click="prepareEdit(campaign)"><i class="ion-edit"></i></b-btn> -->
+                            <router-link active-class="active" class="btn-outline-secondary"
+                                         :to="{ name: 'campaignForm', params: {id: campaign.id } }"
+                                         tag="b-btn">
+                                <i class="ion-edit"></i>
+                            </router-link>
                             <button type="button" class="btn btn-outline-secondary"
                                     @click="deleteCampaign(campaign.id)"><i class="ion-android-delete"></i></button>
                         </td>
@@ -42,6 +52,7 @@
         </div>
 
         <!-- Modal Component -->
+        <!--
         <b-modal id="modalNewCampaign"
                  ref="modal"
                  title="Nueva campaña"
@@ -96,6 +107,7 @@
                 </div>
             </form>
         </b-modal>
+        -->
 
     </div>
 

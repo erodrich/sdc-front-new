@@ -28,7 +28,8 @@ const ApiService = {
     return Vue.axios
       .get(`${x}`)
       .catch((error) => {
-        throw new Error(`[SDC] ApiService ::: get ::: ${error}`)
+        // console.log(error)
+        throw error
       })
   },
   post (resource, params, extra = '') {
@@ -45,7 +46,8 @@ const ApiService = {
     return Vue.axios
       .delete(resource)
       .catch((error) => {
-        throw new Error(`[SDC] ApiService ::: delete ::: ${error}`)
+        // throw new Error(`[SDC] ApiService ::: delete ::: ${error}`)
+        throw error
       })
   }
 }
