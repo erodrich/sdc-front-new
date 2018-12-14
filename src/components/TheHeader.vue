@@ -3,7 +3,7 @@
 
         <router-link class="navbar-brand"
                      :to="{ name: 'home' }">
-            <img src="@/assets/logo.png" width="60" height="60" alt="">
+            <img src="@/assets/logo.png" width="30" height="30" alt="">
             &nbsp;
             Digicupon
         </router-link>

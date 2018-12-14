@@ -16,7 +16,12 @@
                             <td><a @click="view(ad)">{{ad.title}}</a></td>
                             <td>{{ad.created_at}}</td>
                             <td>
-                                <b-btn v-b-modal.modalEditAd variant="outline-secondary" @click="prepareEdit(ad)"><i class="ion-edit"></i></b-btn>
+                                <!-- <b-btn v-b-modal.modalEditAd variant="outline-secondary" @click="prepareEdit(ad)"><i class="ion-edit"></i></b-btn> -->
+                                <router-link class="btn btn-outline-secondary"
+                                             :to="{ name: 'adForm', params: { campaignId: campaign.id, id: ad.id } }"
+                                             tag="button">
+                                    <i class="ion-edit"></i>
+                                </router-link>
                                 <button type="button" class="btn btn-outline-danger" @click="deleteAd(ad.id)"><i class="ion-android-delete"></i></button>
                             </td>
                         </tr>
@@ -137,6 +142,7 @@ export default {
       this.modalAd = ad
       $('#my-modal').modal('show')
     },
+    /*
     handleFileUpload (e) {
       this.newAd.image_pre = this.$refs.file_image_pre.files[0]
       this.newAd.image_full = this.$refs.file_image_full.files[0]
@@ -169,9 +175,11 @@ export default {
     clearNewAd () {
       this.newAd = {}
     },
+    */
     deleteAd (id) {
       if (confirm('Seguro que desea eliminar este anuncio?')) {
         this.$store.dispatch(AD_DELETE, id)
+          .then(res => this.fetchAds())
       }
       this.fetchAds()
     }

@@ -50,7 +50,7 @@
                     </div>
                     <fieldset class="form-group">
                         <div class="row">
-                            <legend class="col-form-label col-sm-2 pt-0">Activa?</legend>
+                            <legend class="col-form-label col-sm-2 pt-0">Activar?</legend>
                             <div class="col-sm-10">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
@@ -76,11 +76,11 @@
                             <button type="submit" class="btn btn-info w-100">Guardar</button>
                         </div>
                         <div class="col-sm-3 ">
-                        <router-link
-                                :to="{ name: 'campaign' }"
-                                tag="button"
-                                class="btn btn-danger btn-block">Cancelar
-                        </router-link>
+                            <router-link
+                                    :to="{ name: 'campaign' }"
+                                    tag="button"
+                                    class="btn btn-danger btn-block">Cancelar
+                            </router-link>
                         </div>
                     </div>
                 </form>
@@ -134,7 +134,6 @@ export default {
       this.editFlag = true;
       this.fetchCampaign()
     }
-
   },
   methods: {
     handleSubmit () {

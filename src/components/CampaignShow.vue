@@ -33,12 +33,24 @@
                         </dl>
                     </div>
                     <div class="card-footer">
-                        <!-- <button type="button" class="btn btn-primary" @click="showAdForm()">Añadir Anuncio</button> -->
-                        <router-link class="btn btn-primary"
-                                     :to="{ name: 'adForm', id: id }"
-                                     tag="button">Añadir Anuncio
-                        </router-link>
-                        <button type="button" class="btn btn-primary" @click="showBeaconForm()">Seleccionar Beacon</button>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-sm-3 ">
+                                <router-link class="btn btn-sm btn-primary btn-block"
+                                             :to="{ name: 'adForm', params: { campaignId: campaign.id } }"
+                                             tag="button">Añadir Anuncio
+                                </router-link>
+                            </div>
+                            <div class="col-sm-3 ">
+                                <button type="button" class="btn-sm btn-primary btn-block" @click="showBeaconForm()">Seleccionar Beacon</button>
+                            </div>
+                            <div class="col-sm-3 ">
+                                <router-link
+                                        :to="{ name: 'campaign' }"
+                                        tag="button"
+                                        class="btn-sm btn-danger btn-block">Volver
+                                </router-link>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -155,10 +167,6 @@ export default {
     fetchBeacon () {
       this.$store.dispatch(FETCH_BEACONS, this.campaign.beacons[0].id)
     },
-    showAdForm () {
-      console.log('Muestro Formulario')
-      $('#ad-modal').modal('show')
-    },
     showBeaconForm () {
       this.fetchBeacons()
       $('#beacon-modal').modal('show')
@@ -167,27 +175,6 @@ export default {
       this.selected.campaign_id = this.id
       this.$store.dispatch(BEACON_UPDATE, this.selected)
       $('#beacon-modal').modal('toggle')
-    },
-    saveAd () {
-      let formData = new FormData()
-      formData.append('title', this.title)
-      formData.append('description', this.description)
-      formData.append('image_pre', this.image_pre)
-      formData.append('image_full', this.image_full)
-      formData.append('video_url', this.video_url)
-      formData.append('link_url', this.link_url)
-      formData.append('campaign_id', this.campaign.id)
-      this.$store.dispatch(AD_NEW, formData)
-      $('#ad-modal').modal('toggle')
-      this.fetchCampaign()
-    },
-    clearNewAd () {
-      this.title = ''
-      this.description = ''
-      this.image_pre = ''
-      this.image_full = ''
-      this.video_url = ''
-      this.link_url = ''
     },
     clearSelected () {
       this.selected = {}
