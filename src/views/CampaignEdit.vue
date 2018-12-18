@@ -92,7 +92,9 @@
 import {
   FETCH_CAMPAIGNS,
   CAMPAIGN_NEW,
-  CAMPAIGN_EDIT
+  CAMPAIGN_EDIT,
+  MARK_AS_LOADING,
+  MARK_AS_NOT_LOADING
 } from '@/store/actions.type'
 import {required} from 'vuelidate/lib/validators'
 import {mapGetters} from 'vuex'
@@ -129,32 +131,35 @@ export default {
   computed: {
     ...mapGetters(['campaign', 'campaigns', 'getClientId'])
   },
-  created() {
-    if(this.id){
-      this.editFlag = true;
+  created () {
+    if (this.id) {
+      this.editFlag = true
       this.fetchCampaign()
     }
   },
   methods: {
     handleSubmit () {
+      this.$store.dispatch(MARK_AS_LOADING)
       this.newCampaign.client_id = this.getClientId
       this.newCampaign.start_date = this.startDate.toLocaleDateString('fr-CA')
       this.newCampaign.end_date = this.endDate.toLocaleDateString('fr-CA')
-      if(this.editFlag){
+      if (this.editFlag) {
         this.$store.dispatch(CAMPAIGN_EDIT, this.newCampaign)
           .then(res => {
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
             console.log(res)
             this.$router.push({name: 'campaign', params: {id: res.data.id}})
           })
       } else {
         this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
           .then(res => {
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
             console.log(res)
             this.$router.push({name: 'campaign', params: {id: res.data.id}})
           })
       }
     },
-    fetchCampaign() {
+    fetchCampaign () {
       this.$store.dispatch(FETCH_CAMPAIGNS, this.id)
         .then(res => {
           console.log(this.campaign)

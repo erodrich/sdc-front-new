@@ -110,7 +110,12 @@
     </div>
 </template>
 <script>
-import { FETCH_ADS, AD_NEW, AD_EDIT } from '@/store/actions.type'
+import { FETCH_ADS,
+  AD_NEW,
+  AD_EDIT,
+  MARK_AS_LOADING,
+  MARK_AS_NOT_LOADING
+} from '@/store/actions.type'
 import {required} from 'vuelidate/lib/validators'
 import {mapGetters} from 'vuex'
 
@@ -168,6 +173,7 @@ export default {
   },
   methods: {
     handleSubmit () {
+      this.$store.dispatch(MARK_AS_LOADING)
       let formData = new FormData()
       formData.append('title', this.newAd.title)
       formData.append('description', this.newAd.description)
@@ -178,20 +184,33 @@ export default {
       if (this.editFlag) {
         formData.append('_method', 'PUT')
         formData.append('id', this.newAd.id)
-        if(typeof this.newAd.image_pre === 'object') {
+        if (typeof this.newAd.image_pre === 'object') {
           formData.append('image_pre', this.newAd.image_pre)
         }
-        if(typeof this.newAd.image_full === 'object') {
+        if (typeof this.newAd.image_full === 'object') {
           formData.append('image_full', this.newAd.image_full)
         }
         this.$store.dispatch(AD_EDIT, formData)
-          .then(res => alert('Anuncio actualizado con éxito'))
-          .catch(err => console.log(err.response))
+          .then(res => {
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
+            alert('Anuncio actualizado con éxito')
+          })
+          .catch(err => {
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
+            console.log(err.response)
+          })
       } else {
         formData.append('image_pre', this.newAd.image_pre)
         formData.append('image_full', this.newAd.image_full)
         this.$store.dispatch(AD_NEW, formData)
-          .then(res => alert('Anuncio añadido con éxito'))
+          .then(res => {
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
+            alert('Anuncio añadido con éxito')
+          })
+          .catch(err => {
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
+            console.log(err.response)
+          })
       }
     },
     fetchAd () {
