@@ -7,13 +7,11 @@
     </div>
 </template>
 <script>
-import AppSidebar from '@/components/TheSidebar'
 import AppHomeStats from '@/components/HomeStats'
 
 export default {
   name: 'HomeGlobal',
   components: {
-    AppSidebar,
     AppHomeStats
   }
 }
