@@ -46,6 +46,14 @@ export default new Router({
           }
         },
         {
+          name: 'beaconsSelectCampaign',
+          path: '/beacons/:id?/selectcampaign',
+          component: () => import('@/views/BeaconsSelectCampaign'),
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
           name: 'beacons',
           path: '/beacons',
           component: () => import('@/views/Beacons'),
