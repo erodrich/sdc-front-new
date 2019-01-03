@@ -19,7 +19,7 @@ const actions = {
     return BeaconsService
       .get(context.rootGetters.getClientId, id)
       .then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
         context.commit(SET_BEACONS, response.data)
       })
       .catch((error) => {
@@ -30,7 +30,7 @@ const actions = {
     return BeaconsService
       .update(data.id, data)
       .then((response) => {
-        console.log(response.data)
+        //console.log(response.data)
       })
       .catch((error) => {
         console.log(error)
@@ -51,7 +51,7 @@ const mutations = {
           alias: data[i].attributes.alias,
           ubicacion: data[i].attributes.ubicacion,
           created_at: data[i].attributes.created_at,
-          campaignId: data[i].attributes.campaign
+          campaign_id: data[i].attributes.campaign_id
         }
         state.beacons.push(beacon)
       }
@@ -62,7 +62,7 @@ const mutations = {
         alias: data.attributes.alias,
         ubicacion: data.attributes.ubicacion,
         created_at: data.attributes.created_at,
-        campaignId: data.attributes.campaign
+        campaign_id: data.attributes.campaign_id
       }
       state.beacon = beacon
     }

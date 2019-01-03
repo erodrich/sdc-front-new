@@ -1,4 +1,4 @@
-export const CAMPAIGN_PUBLISH = 'publishCampaign'
+
 export const CAMPAIGN_DELETE = 'deleteCampaign'
 export const CAMPAIGN_EDIT = 'editCampaign'
 export const CAMPAIGN_NEW= 'newCampaign'

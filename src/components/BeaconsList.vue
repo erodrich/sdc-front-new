@@ -5,33 +5,32 @@
                 <h5>Beacons</h5>
             </div>
             <div class="card-body">
-                <div v-for="beacon in beacons" :key="beacon.id">
+                <div v-for="(beacon) in beacons" :key="beacon.id">
                     <div class="card" >
                         <div class="card-body">
-                            <h5 class="card-title">{{beacon.alias}}</h5>
-                            <em class="card-subtitle mb-2 text-muted">Creado: {{beacon.created_at}}</em>
+                            <h5 class="card-title">{{ beacon.alias }}</h5>
+                            <em class="card-subtitle mb-2 text-muted">Creado: {{ beacon.created_at }}</em>
                             <p class="card-text">
                                 <ul>
 
                                     <li>Ubicación: {{beacon.ubicacion}}</li>
-                                    <li>Estado: <span v-if="beacon.campaignId"><strong>En uso</strong></span> <span
+                                    <li>Estado: <span v-if="beacon.campaign_id"><strong>En uso</strong></span> <span
                                             v-else> Disponible </span></li>
                                 </ul>
                             </p>
-                            <div v-if="beacon.campaignId">
-                                <!-- <p class="card-text">Campaña: {{ campaignNames[beacon.id] }}</p> -->
+                            <div v-if="beacon.campaign_id">
+                                <p class="card-text">Campaña: {{ campaignNames[beacon.campaign_id] }}</p>
 
                                 <router-link class="card-link"
                                              active-class="active"
-                                             :to="{ name: 'campaign', params: { id: beacon.campaignId} }">
+                                             :to="{ name: 'campaign', params: { id: beacon.campaign_id } }">
                                     Ir a Campaña
                                 </router-link>
-                                <a href="#" class="card-link">Another link</a>
                             </div>
                             <div v-else>
                                 <router-link class="card-link"
                                              active-class="active"
-                                             :to="{ name: 'beaconsSelectCampaign' }">
+                                             :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
                                     Seleccionar Campaña
                                 </router-link>
                             </div>
@@ -62,7 +61,7 @@ export default {
       'campaign'
     ])
   },
-  mounted () {
+  created () {
     this.fetchBeacons()
   },
   methods: {
@@ -70,15 +69,15 @@ export default {
       this.$store.dispatch(FETCH_BEACONS)
         .then(res => {
           this.beacons.forEach(beacon => {
-            if(beacon.campaignId) {
-              this.$store.dispatch(FETCH_CAMPAIGNS, beacon.campaignId)
+            if (beacon.campaign_id) {
+              this.$store.dispatch(FETCH_CAMPAIGNS, beacon.campaign_id)
                 .then(res => {
-                  this.campaignNames[beacon.id] = this.campaign.name
+                  this.campaignNames[beacon.campaign_id] = this.campaign.name
                 })
             }
           })
         })
-    },
+    }
   }
 
 }
