@@ -3,7 +3,7 @@
         <app-header></app-header>
         <div class="row no-gutters" style="min-height: 720px;">
             <app-sidebar></app-sidebar>
-            <div class="col-sm-9 col-lg-8 p-1 justify-content-center">
+            <div class="col-sm-9 col-lg-9 p-1 justify-content-center">
                 <router-view></router-view>
             </div>
         </div>

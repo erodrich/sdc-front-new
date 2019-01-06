@@ -19,12 +19,17 @@
                                 </ul>
                             </p>
                             <div v-if="beacon.campaign_id">
-                                <p class="card-text">Campaña: {{ campaignNames[beacon.campaign_id] }}</p>
+                                <!-- <p class="card-text">Campaña: {{ campaignNames[beacon.campaign_id] }}</p> -->
 
                                 <router-link class="card-link"
                                              active-class="active"
                                              :to="{ name: 'campaign', params: { id: beacon.campaign_id } }">
                                     Ir a Campaña
+                                </router-link>
+                                <router-link class="card-link"
+                                             active-class="active"
+                                             :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
+                                    Cambiar Campaña
                                 </router-link>
                             </div>
                             <div v-else>

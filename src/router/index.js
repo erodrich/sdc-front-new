@@ -62,9 +62,9 @@ export default new Router({
           }
         },
         {
-          name: 'settings',
-          path: '/settings',
-          component: () => import('@/views/Settings'),
+          name: 'statistics',
+          path: '/statistics',
+          component: () => import('@/views/Statistics'),
           meta: {
             requiresAuth: true
           }

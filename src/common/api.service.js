@@ -101,3 +101,14 @@ export const AdsService = {
     return ApiService.delete(`ads/${id}`)
   }
 }
+
+export const StatisticsService = {
+  getOverview (client) {
+    const resource = 'statistics/client/' + client + '/overview'
+    return ApiService.get(resource)
+  },
+  getSearch (client, params) {
+    const resource = 'statistics/client/' + client + '/search'
+    return ApiService.get(resource)
+  }
+}

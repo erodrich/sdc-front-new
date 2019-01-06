@@ -8,22 +8,22 @@
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="card text-center" style="margin-left: -5px">
                         <img id="thumbs" src="@/assets/images/campaigns_thumb.png" width="100"  alt="Campañas activas">
-                        Campañas Activas:
-                        <p class="h3">{{ totalCampaigns }}</p>
+                        Total Campañas:
+                        <p class="h3">{{ overview.total_campaigns }}</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="card text-center" style="margin-left: -5px">
                         <img id="thumbs" src="@/assets/images/ads_thumb.png" width="100"  alt="Anuncios">
-                        Anuncios:
-                        <p class="h3">{{ totalAds }}</p>
+                        Total Anuncios:
+                        <p class="h3">{{ overview.total_ads }}</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="card text-center" style="margin-left: -5px">
                         <img id="thumbs" src="@/assets/images/report_thumb.png" width="100"  alt="Reportes">
-                        Reportes
-                        <p class="h3">{{ totalReports }}</p>
+                        Campañas Activas
+                        <p class="h3">{{ overview.active_campaigns }}</p>
                     </div>
                 </div>
             </div>
@@ -32,6 +32,8 @@
 
 </template>
 <script>
+import { mapGetters } from 'vuex'
+import {FETCH_OVERVIEW} from '@/store/actions.type'
 
 export default {
   name: 'AppHomeStats',
@@ -42,11 +44,18 @@ export default {
       totalReports: 0
     }
   },
+  computed: {
+    ...mapGetters([
+      'overview',
+    ])
+  },
   created () {
-
+    this.fetchOverview()
   },
   methods: {
-
+    fetchOverview () {
+      this.$store.dispatch(FETCH_OVERVIEW)
+    }
   }
 }
 </script>

@@ -47,7 +47,7 @@
                             <h5>{{ modalAd.title }}</h5>
                             <p class="lead"> {{ modalAd.description }}</p>
                             <hr>
-                            <button class="btn btn-primary" :href="modalAd.link_url">Enlace</button>
+                            <a target="_blank" class="btn btn-primary" :href="modalAd.link_url">Enlace</a>
 
                         </div>
                         <div class="modal-footer">
@@ -59,6 +59,7 @@
         </div>
 
         <!-- Modal Component -->
+    <!--
     <b-modal id="modalEditAd"
              ref="modalAd"
              title="Anuncio"
@@ -114,6 +115,7 @@
             </div>
       </form>
     </b-modal>
+    -->
     </div>
 </template>
 <script>

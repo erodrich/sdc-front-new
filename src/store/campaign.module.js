@@ -38,7 +38,8 @@ const mutations = {
           start_date: data[i].attributes.start_date,
           end_date: data[i].attributes.end_date,
           // active: data[i].attributes.active == 1 ? true : false
-          active: data[i].attributes.active
+          active: data[i].attributes.active,
+          beacons: data[i].relationships.beacons.data
         }
         state.campaigns.push(campaign)
       }

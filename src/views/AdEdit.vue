@@ -63,7 +63,7 @@
                             <img id="image_full" :src="newAd.image_full_url" style="width: 200px; "/>
                         </div>
 
-                        <div class="input-group">
+                        <div class="input-group mt-1">
                             <button class="btn btn-outline-info" type="button" @click="openInputFull()">Cargar imagen</button>
                             <input type="file"
                                    id="file_image_full"
@@ -81,7 +81,7 @@
                         <div>
                             <img id="image_pre" :src="newAd.image_pre_url" style="width: 200px; "/>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group mt-1">
                             <button class="btn btn-outline-info" type="button" @click="openInputPre()">Cargar imagen</button>
                             <input type="file"
                                    id="file_image_pre"
@@ -194,6 +194,7 @@ export default {
           .then(res => {
             this.$store.dispatch(MARK_AS_NOT_LOADING)
             alert('Anuncio actualizado con éxito')
+            window.history.back()
           })
           .catch(err => {
             this.$store.dispatch(MARK_AS_NOT_LOADING)

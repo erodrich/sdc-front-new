@@ -1,17 +1,19 @@
 <template>
 
     <button type="button" class="btn btn-outline-secondary"
-        @click="updateBeacon()"><i class="ion-android-delete"></i></button>
+        @click="updateBeacon()"><i :class="[isSelected ? activeClass : 'ion-android-radio-button-off']"></i></button>
 </template>
 <script>
 import {FETCH_BEACONS, BEACON_UPDATE} from '@/store/actions.type'
 import {mapGetters} from 'vuex'
 
 export default {
-  props: ['routeName', 'entityId'],
+  props: ['routeName', 'entityId', 'isSelected'],
   data () {
     return {
-      newBeacon: {}
+      newBeacon: {},
+      // isSelected: false,
+      activeClass: 'ion-android-radio-button-on'
     }
   },
   computed: {
@@ -30,10 +32,14 @@ export default {
       }
     },
     updateBeacon () {
-      console.log(this.entityId)
+      // console.log(this.entityId)
+
       this.newBeacon.campaign_id = this.entityId
       this.$store.dispatch(BEACON_UPDATE, this.newBeacon)
-        .then(res => console.log(res.data))
+        .then(res => {
+          alert('Se asignó la campaña elegida.')
+          location.reload()
+        })
         .catch(error => console.log(error))
     }
   }

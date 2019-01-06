@@ -41,7 +41,13 @@
                                 </router-link>
                             </div>
                             <div class="col-sm-3 ">
-                                <button type="button" class="btn-sm btn-primary btn-block" @click="showBeaconForm()">Seleccionar Beacon</button>
+                                <!-- <button type="button" class="btn-sm btn-primary btn-block" @click="showBeaconForm()">Seleccionar Beacon</button> -->
+                                <router-link tag="button"
+                                             class="btn-sm btn-primary btn-block"
+                                             :to="{ name: 'beacons' }">
+                                    Seleccionar Beacon
+                                </router-link>
+
                             </div>
                             <div class="col-sm-3 ">
                                 <router-link

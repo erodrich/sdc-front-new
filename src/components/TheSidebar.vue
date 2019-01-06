@@ -26,9 +26,9 @@
             <router-link class="list-group-item list-group-item-action"
                          active-class="active"
                          exact
-                         :to="{ name: 'settings' }"
+                         :to="{ name: 'statistics' }"
                          tag="button">
-                <i class="ion-settings"></i>&nbsp;Ajustes
+                <i class="ion-settings"></i>&nbsp;Estadìsticas
             </router-link>
         </div>
     </div>
