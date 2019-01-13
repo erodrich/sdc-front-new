@@ -31,6 +31,7 @@
                                              :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
                                     Cambiar Campaña
                                 </router-link>
+                                <a href="#" class="card-link" @click="selectNone(beacon.id)">Ninguna Campaña</a>
                             </div>
                             <div v-else>
                                 <router-link class="card-link"
@@ -39,6 +40,7 @@
                                     Seleccionar Campaña
                                 </router-link>
                             </div>
+
 
                         </div>
                     </div>
@@ -50,7 +52,7 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
-import {FETCH_BEACONS, FETCH_CAMPAIGNS} from '@/store/actions.type'
+import {FETCH_BEACONS, FETCH_CAMPAIGNS, BEACON_UPDATE} from '@/store/actions.type'
 
 export default {
   name: 'BeaconsList',
@@ -82,6 +84,16 @@ export default {
             }
           })
         })
+    },
+    selectNone (beaconId) {
+      let updateBeacon = {}
+      this.beacons.forEach( (beacon) => {
+        if(beacon.id === beaconId){
+          updateBeacon = beacon
+        }
+      })
+      updateBeacon.campaign_id = null
+      this.$store.dispatch(BEACON_UPDATE, updateBeacon)
     }
   }
 

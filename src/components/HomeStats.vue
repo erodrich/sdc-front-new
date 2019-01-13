@@ -39,9 +39,7 @@ export default {
   name: 'AppHomeStats',
   data () {
     return {
-      totalCampaigns: 10,
-      totalAds: 15,
-      totalReports: 0
+
     }
   },
   computed: {
@@ -49,12 +47,21 @@ export default {
       'overview',
     ])
   },
-  created () {
-    this.fetchOverview()
+  mounted () {
+    this.sleepFetch()
   },
   methods: {
     fetchOverview () {
       this.$store.dispatch(FETCH_OVERVIEW)
+        .then(() => {
+          // console.log(this.overview)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    sleepFetch() {
+      setTimeout(this.fetchOverview, 800);
     }
   }
 }

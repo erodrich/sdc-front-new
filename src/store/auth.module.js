@@ -35,12 +35,12 @@ const actions = {
           password: credentials.password
         })
         .then(({data}) => {
-          console.log('Data: ' + data)
+          // console.log(data)
           context.commit(SET_AUTH, data)
-          resolve(data)
+          resolve()
         })
         .catch((error) => {
-          console.log('Response: ' + error)
+          console.log(error)
           context.commit(SET_ERROR, error)
         })
     })
@@ -53,7 +53,7 @@ const actions = {
         context.commit(SET_CURRENT_USER, data)
       })
       .catch(({response}) => {
-        console.log('Response: ' + response)
+        console.log(response)
         context.commit(SET_ERROR, response.data)
       })
   },
@@ -62,10 +62,10 @@ const actions = {
     ApiService.post('logout')
       .then(({data}) => {
         context.commit(PURGE_AUTH)
-        resolve(data)
+        // resolve(data)
       })
       .catch(({error}) => {
-        context.commit(PURGE_AUTH)
+        // context.commit(PURGE_AUTH)
         console.log(error)
       })
   },

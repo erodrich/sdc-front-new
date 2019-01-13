@@ -3,12 +3,14 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
-                    Anuncio
+                    Campaña para Beacon: {{beacon.alias}}
                 </h5>
             </div>
             <div class="card-body">
-                <app-campaign-list-new>
-                    <div slot-scope="row">
+                <app-campaign-list>
+                    <template slot="extra-th"></template>
+                    <template slot="extra-td" slot-scope="beacon"></template>
+                    <div slot="options" slot-scope="row">
 
                         <!-- Edit Button -->
                         <!-- <list-edit-button routeName="campaignForm" :entityId="row.campaign.id"></list-edit-button> -->
@@ -17,9 +19,10 @@
                         <!-- <list-delete-button action="CAMPAIGN_DELETE" :entityId="row.campaign.id" postAction="FETCH_CAMPAIGNS"></list-delete-button> -->
 
                         <!-- Assign Campaign to Beacon -->
-                        <list-select-campaign-button :entityId="row.campaign.id" :isSelected="row.campaign.beacons.length > 0 ? true : false"></list-select-campaign-button>
+                        <list-select-campaign-button :entityId="row.campaign.id" :isSelected="isBeaconSelected(row.campaign.beacons)"></list-select-campaign-button>
+
                     </div>
-                </app-campaign-list-new>
+                </app-campaign-list>
                 <div class="form-group row justify-content-center">
                     <div class="col-sm-3 ">
                         <router-link
@@ -34,19 +37,46 @@
     </div>
 </template>
 <script>
-import AppCampaignListNew from '@/components/CampaignListNew'
+import AppCampaignList from '@/components/CampaignList'
 import ListEditButton from '@/components/lib/ListEditButton'
 import ListDeleteButton from '@/components/lib/ListDeleteButton'
 import ListSelectCampaignButton from '@/components/lib/ListSelectCampaignButton'
+import {FETCH_BEACONS} from '@/store/actions.type'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'BeaconsSelectCampaign',
   components: {
-    AppCampaignListNew,
+    AppCampaignList,
     ListEditButton,
     ListDeleteButton,
     ListSelectCampaignButton
   },
+  computed: {
+    ...mapGetters([
+      'beacon'
+    ])
+  },
+  mounted(){
+    this.fetchBeacon()
+  },
+  methods: {
+    fetchBeacon () {
+      if (this.$route.params.id) {
+        this.$store.dispatch(FETCH_BEACONS, this.$route.params.id)
+
+      }
+    },
+    isBeaconSelected (beaconsArray) {
+      let flag = false
+      beaconsArray.forEach( (beacon) => {
+        if(beacon.id === this.beacon.id)
+          flag = true
+      })
+
+      return flag
+    }
+  }
 
 }
 </script>

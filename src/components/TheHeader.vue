@@ -23,12 +23,15 @@
                     </router-link>
                 </li>
                 <li class="nav-item" v-if="currentUser.name">
+                    <div class="nav-link"> {{ currentUser.name }} </div>
+                    <!--
                     <router-link class="nav-link"
                                  active-class="active"
                                  exact
                                  :to="{ name: 'profile', params: { username: currentUser.name } }">
                         {{ currentUser.name }}
                     </router-link>
+                    -->
                 </li>
             </ul>
         </div>

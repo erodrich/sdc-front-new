@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-import AppCampaignList from '@/components/CampaignListNew'
+import AppCampaignList from '@/components/CampaignList'
 import AppCampaignShow from '@/components/CampaignShow'
 import ListEditButton from '@/components/lib/ListEditButton'
 import ListDeleteButton from '@/components/lib/ListDeleteButton'

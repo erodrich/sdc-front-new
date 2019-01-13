@@ -13,9 +13,9 @@
                                 </ul>
                                 <form action="#" @submit.prevent="login(username, password)">
                                     <div class="form-group" :class="{invalid: $v.username.$error}">
-                                        <input type="email" 
-                                                name="username" 
-                                                id="username" 
+                                        <input type="email"
+                                                name="username"
+                                                id="username"
                                                 class="form-control form-control-lg"
                                                 placeholder="email"
                                                 @blur="$v.username.$touch()"
@@ -23,17 +23,17 @@
                                         <p v-if="$v.username.$error">Por favor introduzca su correo</p>
                                     </div>
                                     <div class="form-group" :class="{invalid: $v.password.$error}">
-                                        <input type="password" 
-                                                name="password" 
-                                                id="password" 
+                                        <input type="password"
+                                                name="password"
+                                                id="password"
                                                 class="form-control form-control-lg"
                                                 placeholder="password"
-                                                @blur="$v.password.$touch()" 
+                                                @blur="$v.password.$touch()"
                                                 v-model="password">
                                         <p v-if="$v.password.$error">Por favor introduzca su contraseña</p>
 
                                     </div>
-                                    <input  type="submit" 
+                                    <input  type="submit"
                                             class="btn btn-info btn-block"
                                             :disabled="$v.username.$error || $v.password.$error"
                                             value="Entrar">
@@ -48,43 +48,40 @@
 
 </template>
 <script>
-import {required, email} from 'vuelidate/lib/validators'
-import { mapState } from "vuex";
-import { LOGIN } from "@/store/actions.type";
+import { required, email } from 'vuelidate/lib/validators'
+import { mapState } from 'vuex'
+import { LOGIN, CHECK_AUTH } from '@/store/actions.type'
 
 export default {
-  name: "AppLogin",
-  data() {
+  name: 'AppLogin',
+  data () {
     return {
       username: null,
       password: null
-    };
+    }
   },
   validations: {
     username: {
       required,
-      email,
+      email
     },
     password: {
-      required,
+      required
     }
   },
   methods: {
-    login() {
-      this.$store
-        .dispatch(LOGIN, {
-          username: this.username,
-          password: this.password
-        })
+    login () {
+      this.$store.dispatch(LOGIN, { username: this.username, password: this.password })
         .then(() => {
-          this.$router.push({ name: "home" });
-        });
+          this.$router.push({ name: 'home' })
+        })
+
     },
-    getErrorMsg(errors) {
+    getErrorMsg (errors) {
       for (var k in errors) {
-        if (k == "response") {
-          console.log(errors)
-          return errors[k].data;
+        if (k === 'response') {
+          // console.log(errors)
+          return errors[k].data
         }
       }
     }
@@ -94,7 +91,7 @@ export default {
       errors: state => state.auth.errors
     })
   }
-};
+}
 </script>
 <style scoped>
 #login-form {
@@ -129,4 +126,3 @@ export default {
   background-color:#ffd7c7;
 }
 </style>
-

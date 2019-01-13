@@ -48,15 +48,16 @@ const actions = {
 
 const mutations = {
   [SET_OVERVIEW] (state, data) {
+    console.log(data)
     data = data.data
-    let overview = {
+
+    state.overview = {
       id: data.id,
       client_id: data.attributes.client_id,
       total_campaigns: data.attributes.total_campaigns,
       active_campaigns: data.attributes.active_campaigns,
       total_ads: data.attributes.total_ads,
     }
-    state.overview = overview
   },
   [SET_INTERACTIONS] (state, data) {
     data = data.data
