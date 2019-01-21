@@ -4,6 +4,10 @@
         <div class="row no-gutters" style="min-height: 720px;">
             <app-sidebar></app-sidebar>
             <div class="col-sm-9 col-lg-9 p-1 justify-content-center">
+                <div class="container">
+                    <alert-message></alert-message>
+                </div>
+
                 <router-view></router-view>
             </div>
         </div>
@@ -29,6 +33,7 @@
 import AppHeader from '@/components/TheHeader'
 import AppFooter from '@/components/TheFooter'
 import AppSidebar from '@/components/TheSidebar'
+import AlertMessage from '@/components/lib/AlertMessage'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -36,7 +41,8 @@ export default {
   components: {
     AppHeader,
     AppFooter,
-    AppSidebar
+    AppSidebar,
+    AlertMessage
   },
   computed: {
     ...mapGetters(['isLoading'])

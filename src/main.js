@@ -5,7 +5,7 @@ import Vuelidate from 'vuelidate'
 import App from './App'
 import router from '@/router'
 import store from '@/store'
-import { CHECK_AUTH } from '@/store/actions.type'
+import { CHECK_AUTH, PURGE_MESSAGE } from '@/store/actions.type'
 
 import ApiService from '@/common/api.service'
 // import DateFilter from '@/common/date.filter'
@@ -30,6 +30,7 @@ router.beforeEach(
   }
 )
 router.beforeEach((to, from, next) => {
+  store.dispatch(PURGE_MESSAGE)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.

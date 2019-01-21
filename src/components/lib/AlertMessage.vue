@@ -1,6 +1,6 @@
 <template>
-    <div v-if="message" :class="[alertClass, message.dangerClass, message.successClass]">
-        <div>{{ message.content }}</div>
+    <div v-if="alerta" :class="alertClass" role="alert">
+        <div>{{ alerta }}</div>
     </div>
 </template>
 <script>
@@ -10,11 +10,22 @@ export default {
   name: 'AlertMessage',
   data () {
     return {
-      alertClass: 'alert'
+
     }
   },
   computed: {
-    ...mapGetters(['message'])
+    ...mapGetters(['alerta', 'type']),
+    alertClass: function () {
+      switch (this.type.toLowerCase()) {
+        case 'error':
+          return 'alert alert-danger'
+        case 'info':
+          return 'alert alert-info'
+        case 'success':
+          return 'alert alert-success'
+      }
+    }
+
   }
 }
 </script>

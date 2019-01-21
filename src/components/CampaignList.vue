@@ -33,7 +33,8 @@
 </template>
 <script>
 import {
-  FETCH_CAMPAIGNS
+  FETCH_CAMPAIGNS,
+  CAMPAIGN_DELETE
 } from '@/store/actions.type'
 import {mapGetters} from 'vuex'
 

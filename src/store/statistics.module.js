@@ -26,7 +26,7 @@ const actions = {
     return StatisticsService
       .getOverview(context.rootGetters.getClientId)
       .then((response) => {
-        // console.log(response.data)
+        console.log(response.data)
         context.commit(SET_OVERVIEW, response.data)
       })
       .catch((error) => {

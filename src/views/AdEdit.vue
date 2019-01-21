@@ -8,21 +8,21 @@
             </div>
             <div class="card-body">
                 <form @submit.stop.prevent="handleSubmit">
-                    <div class="form-group row" :class="{invalid: $v.title.$error}">
+                    <div class="form-group row" :class="{invalid: $v.newAd.title.$error}">
                         <label class="col-sm-2 col-form-label">Título: </label>
                         <div class="col-sm-10">
                             <input type="text"
                                    class="form-control"
-                                   @blur="$v.title.$touch()"
+                                   @blur="$v.newAd.title.$touch()"
                                    v-model="newAd.title">
                         </div>
                     </div>
-                    <div class="form-group row" :class="{invalid: $v.description.$error}">
+                    <div class="form-group row" :class="{invalid: $v.newAd.description.$error}">
                         <label class="col-sm-2 col-form-label">Descripción: </label>
                         <div class="col-sm-10">
                             <input type="text"
                                    class="form-control"
-                                   @blur="$v.description.$touch()"
+                                   @blur="$v.newAd.description.$touch()"
                                    v-model="newAd.description">
                         </div>
                     </div>
@@ -155,11 +155,13 @@ export default {
     }
   },
   validations: {
-    title: {
-      required
-    },
-    description: {
-      required
+    newAd: {
+      title: {
+        required
+      },
+      description: {
+        required
+      }
     }
   },
   computed: {
@@ -196,9 +198,9 @@ export default {
             alert('Anuncio actualizado con éxito')
             window.history.back()
           })
-          .catch(err => {
+          .catch(error => {
+            console.log(error)
             this.$store.dispatch(MARK_AS_NOT_LOADING)
-            console.log(err.response)
           })
       } else {
         formData.append('image_pre', this.newAd.image_pre)
@@ -208,9 +210,9 @@ export default {
             this.$store.dispatch(MARK_AS_NOT_LOADING)
             alert('Anuncio añadido con éxito')
           })
-          .catch(err => {
+          .catch(error => {
+            console.log(error)
             this.$store.dispatch(MARK_AS_NOT_LOADING)
-            console.log(err.response)
           })
       }
     },

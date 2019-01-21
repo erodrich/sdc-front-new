@@ -5,17 +5,22 @@
                 <div class="card-header">
                     <h5 class="d-flex justify-content-between align-items-center">
                         Campañas
+                        <router-link active-class="active"
+                                     :to="{ name: 'campaignForm', id: '' }"
+                                     tag="b-btn">
+                            <i class="ion-plus"></i>
+                        </router-link>
                     </h5>
                 </div>
                 <div class="card-body">
                     <app-campaign-list>
-                        <div slot-scope="row">
+                        <div slot="options" slot-scope="row">
 
                             <!-- Edit Button -->
                             <list-edit-button routeName="campaignForm" :entityId="row.campaign.id"></list-edit-button>
 
                             <!-- Delete Button -->
-                            <list-delete-button action="CAMPAIGN_DELETE" :entityId="row.campaign.id" postAction="FETCH_CAMPAIGNS"></list-delete-button>
+                            <list-delete-button :action="deleteAction" :entityId="row.campaign.id" :postAction="postAction"></list-delete-button>
 
                         </div>
                     </app-campaign-list>
@@ -26,6 +31,10 @@
     </div>
 </template>
 <script>
+import {
+  FETCH_CAMPAIGNS,
+  CAMPAIGN_DELETE
+} from '@/store/actions.type'
 import AppCampaignList from '@/components/CampaignList'
 import AppCampaignShow from '@/components/CampaignShow'
 import ListEditButton from '@/components/lib/ListEditButton'
@@ -35,7 +44,9 @@ export default {
   name: 'Campaign',
   data () {
     return {
-      id: ''
+      id: '',
+      deleteAction: CAMPAIGN_DELETE,
+      postAction: FETCH_CAMPAIGNS
     }
   },
   components: {

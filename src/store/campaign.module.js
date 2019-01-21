@@ -6,7 +6,8 @@ import {
   CAMPAIGN_EDIT
 } from './actions.type'
 import {
-  SET_CAMPAIGNS
+  SET_CAMPAIGNS,
+  SET_MESSAGE
 } from './mutations.type'
 
 const state = {
@@ -74,28 +75,34 @@ const actions = {
     return CampaignsService
       .create(campaign)
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
       })
       .catch((error) => {
-        console.log('Error en CAMPAIGN_NEW')
+        context.commit(SET_MESSAGE, error.response.data)
+        throw error
       })
   },
   [CAMPAIGN_DELETE] (context, id) {
     console.log('Deleting: ' + id)
     return CampaignsService
       .destroy(id)
+      .then((response) => {
+        console.log(response)
+        context.commit(SET_MESSAGE, {type: 'SUCCESS', attributes: { message: 'Se eliminó la campaña'}})
+      })
   },
   [CAMPAIGN_EDIT] (context, campaign) {
     console.log('Updating: ' + JSON.stringify(campaign))
     return CampaignsService
       .update(campaign.id, campaign)
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         return response.data
       })
       .catch((error) => {
-        console.log('Error: ' + JSON.stringify(error))
+        context.commit(SET_MESSAGE, error.response.data)
+        throw error
       })
   }
 }

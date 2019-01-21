@@ -1,7 +1,7 @@
 import { AdsService } from '@/common/api.service'
 import { FETCH_ADS } from '@/store/actions.type'
 import { AD_NEW } from '@/store/actions.type'
-import { SET_ADS } from '@/store/mutations.type'
+import { SET_ADS, SET_MESSAGE } from '@/store/mutations.type'
 import { AD_EDIT } from './actions.type'
 import { AD_DELETE } from './actions.type'
 
@@ -37,6 +37,7 @@ const actions = {
         console.log(response.data)
       })
       .catch((error) => {
+        context.commit(SET_MESSAGE, error.response.data)
         throw error
       })
   },
@@ -47,6 +48,7 @@ const actions = {
         console.log(response.data)
       })
       .catch((error) => {
+        context.commit(SET_MESSAGE, error.response.data)
         throw error
       })
   },

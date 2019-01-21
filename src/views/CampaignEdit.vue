@@ -8,13 +8,13 @@
             </div>
             <div class="card-body">
                 <form @submit.stop.prevent="handleSubmit">
-                    <div class="form-group row" :class="{invalid: $v.name.$error}">
+                    <div class="form-group row" :class="{invalid: $v.newCampaign.name.$error}">
                         <label class="col-sm-2 col-form-label">Nombre: </label>
                         <div class="col-sm-10">
                             <input type="text"
                                    class="form-control"
                                    placeholder="Nombre de campaña"
-                                   @blur="$v.name.$touch()"
+                                   @blur="$v.newCampaign.name.$touch()"
                                    v-model="newCampaign.name">
                         </div>
                     </div>
@@ -96,6 +96,7 @@ import {
   MARK_AS_LOADING,
   MARK_AS_NOT_LOADING
 } from '@/store/actions.type'
+import { SET_MESSAGE } from '@/store/mutations.type'
 import {required} from 'vuelidate/lib/validators'
 import {mapGetters} from 'vuex'
 import Datepicker from 'vuejs-datepicker'
@@ -124,8 +125,10 @@ export default {
     Datepicker
   },
   validations: {
-    name: {
-      required
+    newCampaign: {
+      name: {
+        required
+      }
     }
   },
   computed: {
@@ -150,12 +153,20 @@ export default {
             console.log(res)
             this.$router.push({name: 'campaign', params: {id: res.data.id}})
           })
+          .catch(error => {
+            console.log(error)
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
+          })
       } else {
         this.$store.dispatch(CAMPAIGN_NEW, this.newCampaign)
           .then(res => {
             this.$store.dispatch(MARK_AS_NOT_LOADING)
             console.log(res)
             this.$router.push({name: 'campaign', params: {id: res.data.id}})
+          })
+          .catch(error => {
+            console.log(error)
+            this.$store.dispatch(MARK_AS_NOT_LOADING)
           })
       }
     },
