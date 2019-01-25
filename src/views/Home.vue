@@ -50,6 +50,58 @@ export default {
 }
 </script>
 <style>
+body {
+    background: #56CBF9;
+    color: #FFFFFF;
+    font-size: 0.8em;
+}
+.title{
+    background-color: #FCFCFC;
+    border-radius: 5px;
+    color: #063346;
+}
+.navbar {
+    border-bottom: #BDBDBD 3px solid;
+    opacity: 0.9;
+    a {
+        color: #FFFFFF;
+    }
+}
+.header {
+
+    background: #212121;
+    height: 100%;
+    padding: 20px;
+    border-bottom: #BDBDBD 1px solid;
+    border-top: #BDBDBD 1px solid;
+}
+.card {
+    color: #212121;
+    margin-top: 5px;
+    width: 100%;
+}
+.sidebar.ul.list-group {
+    padding: 5px;
+}
+.sidebar.list-group-item{
+    background-color: #eeeeee;
+}
+.homestats {
+    color: #212121;
+    margin-top: 5px;
+}
+.adTable {
+    width: 100%;
+}
+.modal {
+    color: #212121;
+    img {
+        width: 100%;
+    }
+}
+.campaignlist {
+    width: 100%;
+}
     .lds-wrapper {
         position: fixed;
         top: 0;
