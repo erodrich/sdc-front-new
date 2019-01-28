@@ -76,6 +76,19 @@ export default new Router({
           meta: {
             requiresAuth: true
           }
+        },
+        {
+          path: 'admin',
+          children: [
+            {
+              path: 'clients',
+              name: 'clients',
+              component: () => import('@/views/Clients'),
+              meta: {
+                requiresAuth: false
+              }
+            }
+          ]
         }
       ]
     },

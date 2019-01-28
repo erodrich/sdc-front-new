@@ -112,3 +112,35 @@ export const StatisticsService = {
     return ApiService.get(resource)
   }
 }
+
+export const ClientsService = {
+  get (id) {
+    const resource = 'clients/'
+    return ApiService.get(resource, id)
+  },
+  create (params) {
+    return ApiService.post('clients', {client: params})
+  },
+  update (id, params) {
+    return ApiService.update('clients', id, params)
+  },
+  destroy (id) {
+    return ApiService.delete(`clients/${id}`)
+  }
+}
+
+export const UsersService = {
+  get (id) {
+    const resource = 'users/'
+    return ApiService.get(resource, id)
+  },
+  create (params) {
+    return ApiService.post('users', {client: params})
+  },
+  update (id, params) {
+    return ApiService.update('users', id, params)
+  },
+  destroy (id) {
+    return ApiService.delete(`users/${id}`)
+  }
+}

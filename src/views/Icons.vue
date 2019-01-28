@@ -758,14 +758,6 @@ export default {
 };
 </script>
 <style>
-body {
-    background: #f7f7f7;
-    color: rgb(35, 34, 34);
-    font-size: 1em;
-}
-.icon {
-    font-size: 64px;
-}
 
 </style>
 
