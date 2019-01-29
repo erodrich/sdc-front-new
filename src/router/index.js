@@ -76,20 +76,31 @@ export default new Router({
           meta: {
             requiresAuth: true
           }
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      component: () => import('@/views/Home'),
+      children: [
+        {
+          name: 'clientForm',
+          path: 'clients/edit/:id?',
+          component: () => import('@/views/ClientEdit'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
         },
         {
-          path: 'admin',
-          children: [
-            {
-              path: 'clients',
-              name: 'clients',
-              component: () => import('@/views/Clients'),
-              meta: {
-                requiresAuth: false
-              }
-            }
-          ]
-        }
+          name: 'clients',
+          path: 'clients/:id?',
+          component: () => import('@/views/Clients'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
       ]
     },
     {
