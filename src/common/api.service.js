@@ -115,11 +115,11 @@ export const StatisticsService = {
 
 export const ClientsService = {
   get (id) {
-    const resource = 'clients/'
+    const resource = 'clients'
     return ApiService.get(resource, id)
   },
   create (params) {
-    return ApiService.post('clients', {client: params})
+    return ApiService.post('clients', params)
   },
   update (id, params) {
     return ApiService.update('clients', id, params)

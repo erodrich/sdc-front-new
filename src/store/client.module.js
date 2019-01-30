@@ -1,6 +1,7 @@
 import { ClientsService } from '@/common/api.service'
-import { FETCH_CLIENTS, BEACON_UPDATE } from '@/store/actions.type'
-import { SET_CLIENTS, PURGE_BEACON } from '@/store/mutations.type'
+import { FETCH_CLIENTS, CLIENT_NEW, CLIENT_DELETE, CLIENT_EDIT } from '@/store/actions.type'
+import { SET_CLIENTS } from '@/store/mutations.type'
+import {SET_MESSAGE} from './mutations.type'
 
 const state = {
   clients: [],
@@ -23,17 +24,42 @@ const actions = {
         context.commit(SET_CLIENTS, response.data)
       })
       .catch((error) => {
+        context.commit(SET_MESSAGE, error.response.data)
         throw error
       })
   },
-  [BEACON_UPDATE] (context, data) {
-    return ClientsService//
-      .update(data.id, data)
+  [CLIENT_NEW] (context, client) {
+    console.log(client)
+    return ClientsService
+      .create(client)
       .then((response) => {
-        //console.log(response.data)
+        // console.log(response.data)
+        return response.data
       })
       .catch((error) => {
-        console.log(error)
+        context.commit(SET_MESSAGE, error.response.data)
+        throw error
+      })
+  },
+  [CLIENT_DELETE] (context, id) {
+    console.log('Deleting: ' + id)
+    return ClientsService
+      .destroy(id)
+      .then((response) => {
+        console.log(response)
+        context.commit(SET_MESSAGE, {type: 'SUCCESS', attributes: { message: 'Se eliminó el cliente'}})
+      })
+  },
+  [CLIENT_EDIT] (context, client) {
+    console.log('Updating: ' + JSON.stringify(client))
+    return ClientsService
+      .update(client.id, client)
+      .then((response) => {
+        // console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        context.commit(SET_MESSAGE, error.response.data)
         throw error
       })
   }
@@ -62,9 +88,6 @@ const mutations = {
       }
       state.client = client
     }
-  },
-  [PURGE_BEACON] (state) {
-    state.beacon = {}
   }
 
 }
