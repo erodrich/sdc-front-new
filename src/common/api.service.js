@@ -24,7 +24,11 @@ const ApiService = {
   },
   get (resource, id = '') {
     let x = resource
-    id !== '' ? x += `/${id}` : x
+    if(id){
+      id.match(/page/) ? x += `?${id}` : x
+      id.match(/(\d)*/) ? x += `/${id}` : x
+    }
+    console.log(x)
     return Vue.axios
       .get(`${x}`)
       .catch((error) => {
@@ -135,7 +139,7 @@ export const UsersService = {
     return ApiService.get(resource, id)
   },
   create (params) {
-    return ApiService.post('users', {client: params})
+    return ApiService.post('users', params )
   },
   update (id, params) {
     return ApiService.update('users', id, params)
