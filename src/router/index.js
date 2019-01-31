@@ -101,6 +101,24 @@ export default new Router({
             requiresAuth: false
           }
         },
+        {
+          name: 'userForm',
+          path: 'users/edit/:id?',
+          component: () => import('@/views/UserEdit'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          name: 'users',
+          path: 'users/:id?',
+          component: () => import('@/views/Users'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
       ]
     },
     {
