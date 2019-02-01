@@ -13,7 +13,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <app-client-list>
+                    <app-client-list :action="postAction">
                         <div slot="options" slot-scope="row">
 
                             <!-- Edit Button -->

@@ -25,9 +25,9 @@ const ApiService = {
   get (resource, id = '') {
     let x = resource
     if(id){
-      id.match(/page/) ? x += `?${id}` : x
-      id.match(/(\d)*/) ? x += `/${id}` : x
+      id.match(/page/) ? id = `?${id}` : id
     }
+    x += id
     console.log(x)
     return Vue.axios
       .get(`${x}`)

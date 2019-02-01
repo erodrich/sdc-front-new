@@ -1,6 +1,7 @@
 <template>
-
-    <table v-if='clients' class="table table-hover mt-1">
+  <div v-if='clients'>
+    <pagination :action="action"></pagination>
+    <table class="table table-hover mt-1">
         <thead>
         <th>Nombre</th>
         <th>Ruc</th>
@@ -24,9 +25,13 @@
         </tr>
         </tbody>
     </table>
-
+  </div>
+  <div v-else>
+    No hay clientes para mostrar
+  </div>
 </template>
 <script>
+import Pagination from '@/components/lib/Pagination'
 import {
   FETCH_CLIENTS
 } from '@/store/actions.type'
@@ -34,6 +39,10 @@ import {mapGetters} from 'vuex'
 
 export default {
   name: 'ClientList',
+  props: ['action'],
+  components: {
+    Pagination
+  },
   computed: {
     ...mapGetters([
       'clients'
@@ -44,7 +53,7 @@ export default {
   },
   methods: {
     fetchClients () {
-      this.$store.dispatch(FETCH_CLIENTS)
+      this.$store.dispatch(this.action)
     },
   }
 }

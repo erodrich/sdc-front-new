@@ -1,6 +1,6 @@
 import { ClientsService } from '@/common/api.service'
 import { FETCH_CLIENTS, CLIENT_NEW, CLIENT_DELETE, CLIENT_EDIT } from '@/store/actions.type'
-import { SET_CLIENTS } from '@/store/mutations.type'
+import { SET_CLIENTS, SET_PAGINATION } from '@/store/mutations.type'
 import {SET_MESSAGE} from './mutations.type'
 
 const state = {
@@ -20,10 +20,12 @@ const actions = {
     return ClientsService
       .get(id)
       .then((response) => {
-        //console.log(response.data)
+        // console.log(response)
         context.commit(SET_CLIENTS, response.data)
+        context.commit(SET_PAGINATION, response.data)
       })
       .catch((error) => {
+        // console.log(error)
         context.commit(SET_MESSAGE, error.response.data)
         throw error
       })
