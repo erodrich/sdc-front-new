@@ -29,7 +29,7 @@
                 </table>
             </div>
         </div>
-
+        <pagination :action="action" id="true"></pagination>
         <!-- Detalle Anuncio -->
         <div id="AdModal">
             <div id="my-modal" class="modal fade">
@@ -119,7 +119,8 @@
     </div>
 </template>
 <script>
-import { FETCH_ADS, AD_EDIT, AD_DELETE } from '@/store/actions.type'
+import Pagination from '@/components/lib/Pagination'
+import { FETCH_ADS, AD_DELETE } from '@/store/actions.type'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -127,8 +128,12 @@ export default {
   data () {
     return {
       modalAd: {},
-      newAd: {}
+      newAd: {},
+      action: FETCH_ADS,
     }
+  },
+  components: {
+    Pagination
   },
   computed: {
     ...mapGetters(['ads', 'campaign'])
@@ -138,7 +143,7 @@ export default {
   },
   methods: {
     fetchAds () {
-      this.$store.dispatch(FETCH_ADS, { campaign: this.$route.params.id })
+      this.$store.dispatch(FETCH_ADS, { entity: this.$route.params.id })
     },
     view (ad) {
       this.modalAd = ad

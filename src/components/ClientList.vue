@@ -1,5 +1,5 @@
 <template>
-  <div v-if='clients'>
+  <div v-if='clients.length > 0'>
     <pagination :action="action"></pagination>
     <table class="table table-hover mt-1">
         <thead>
@@ -33,7 +33,6 @@
 <script>
 import Pagination from '@/components/lib/Pagination'
 import {
-  FETCH_CLIENTS
 } from '@/store/actions.type'
 import {mapGetters} from 'vuex'
 

@@ -4,6 +4,7 @@ import { AD_NEW } from '@/store/actions.type'
 import { SET_ADS, SET_MESSAGE } from '@/store/mutations.type'
 import { AD_EDIT } from './actions.type'
 import { AD_DELETE } from './actions.type'
+import {SET_PAGINATION} from './mutations.type'
 
 const state = {
   ads: [],
@@ -22,9 +23,14 @@ const getters = {
 const actions = {
   [FETCH_ADS] (context, data) {
     return AdsService
-      .get(context.rootGetters.getClientId, data.campaign, data.id)
+      .get(context.rootGetters.getClientId, data.entity, data.id)
       .then((response) => {
+        console.log('AdsService :: get :: ' + JSON.stringify(data))
         context.commit(SET_ADS, response.data)
+        if(response.data.links || response.data.meta){
+          context.commit(SET_PAGINATION, response.data)
+        }
+
       })
       .catch((error) => {
         throw new Error(error)

@@ -5,45 +5,49 @@
                 <h5>Beacons</h5>
             </div>
             <div class="card-body">
-                <div v-for="(beacon) in beacons" :key="beacon.id">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">{{ beacon.alias }}</h5>
-                            <em class="card-subtitle mb-2 text-muted">Creado: {{ beacon.created_at }}</em>
-                            <p class="card-text">
+                <div v-if="beacons.length > 0">
+                    <div v-for="(beacon) in beacons" :key="beacon.id">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">{{ beacon.alias }}</h5>
+                                <em class="card-subtitle mb-2 text-muted">Creado: {{ beacon.created_at }}</em>
+                                <p class="card-text">
                                 <ul>
 
                                     <li>Ubicación: {{beacon.ubicacion}}</li>
                                     <li>Estado: <span v-if="beacon.campaign_id"><strong>En uso</strong></span> <span
                                             v-else> Disponible </span></li>
                                 </ul>
-                            </p>
-                            <div v-if="beacon.campaign_id">
-                                <!-- <p class="card-text">Campaña: {{ campaignNames[beacon.campaign_id] }}</p> -->
+                                </p>
+                                <div v-if="beacon.campaign_id">
 
-                                <router-link class="card-link"
-                                             active-class="active"
-                                             :to="{ name: 'campaign', params: { id: beacon.campaign_id } }">
-                                    Ir a Campaña
-                                </router-link>
-                                <router-link class="card-link"
-                                             active-class="active"
-                                             :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
-                                    Cambiar Campaña
-                                </router-link>
-                                <a href="#" class="card-link" @click="selectNone(beacon.id)">Ninguna Campaña</a>
+                                    <router-link class="card-link"
+                                                 active-class="active"
+                                                 :to="{ name: 'campaign', params: { id: beacon.campaign_id } }">
+                                        Ir a Campaña
+                                    </router-link>
+                                    <router-link class="card-link"
+                                                 active-class="active"
+                                                 :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
+                                        Cambiar Campaña
+                                    </router-link>
+                                    <a href="#" class="card-link" @click="selectNone(beacon.id)">Ninguna Campaña</a>
+                                </div>
+                                <div v-else>
+                                    <router-link class="card-link"
+                                                 active-class="active"
+                                                 :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
+                                        Seleccionar Campaña
+                                    </router-link>
+                                </div>
+
+
                             </div>
-                            <div v-else>
-                                <router-link class="card-link"
-                                             active-class="active"
-                                             :to="{ name: 'beaconsSelectCampaign', params: { id: beacon.id } }">
-                                    Seleccionar Campaña
-                                </router-link>
-                            </div>
-
-
                         </div>
                     </div>
+                </div>
+                <div v-else>
+                    No tiene beacons asociados.
                 </div>
             </div>
         </div>

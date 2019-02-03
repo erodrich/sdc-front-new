@@ -16,19 +16,27 @@
 import {mapGetters} from 'vuex'
 
 export default {
-    name: 'Pagination',
-    props: ['action'],
-    computed: {
-      ...mapGetters([
-        'current', 'next', 'prev', 'last'
-      ])
-    },
-    methods: {
-        fetchResource (page) {
-            page = `page=${page}`
-            this.$store.dispatch(this.action, page)
+  name: 'Pagination',
+  props: ['action', 'id'],
+  computed: {
+    ...mapGetters([
+      'current', 'next', 'prev', 'last'
+    ])
+  },
+  methods: {
+    fetchResource (page) {
+      page = `page=${page}`
+      if (this.id === 'true') {
+        let data = {
+          entity: this.$route.params.id,
+          id: page
         }
+        this.$store.dispatch(this.action, data)
+      } else {
+        this.$store.dispatch(this.action, page)
+      }
     }
-    
+  }
+
 }
 </script>
