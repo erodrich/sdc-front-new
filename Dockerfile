@@ -16,15 +16,17 @@ COPY nginx_config/default.conf /etc/nginx/conf.d/default.conf
 # Set the directory we want to run the next commands for
 WORKDIR /tmp/nginx/sdc-front
 # Copy our source code into the container
-COPY . .
+# COPY . .
 # Install the dependencies, can be commented out if you're running the same node version
-RUN npm install
+# RUN npm install
+
 
 # run webpack and the vue-loader
-RUN npm run build
+# RUN npm run build
 
 # copy the built app to our served directory
-RUN cp -r dist/* /var/www/html
+# RUN cp -r ./dist/* /var/www/html
+COPY dist /var/www/html
 
 # make all files belong to the nginx user
 RUN chown nginx:nginx /var/www/html
