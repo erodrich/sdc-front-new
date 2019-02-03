@@ -11,6 +11,7 @@ import ApiService from '@/common/api.service'
 // import DateFilter from '@/common/date.filter'
 import ErrorFilter from '@/common/error.filter'
 import BootstrapVue from 'bootstrap-vue'
+import {PURGE_PAGINATION} from './store/actions.type'
 
 Vue.config.productionTip = false
 Vue.config.ignoredElements = [/^ion-/]
@@ -31,6 +32,7 @@ router.beforeEach(
 )
 router.beforeEach((to, from, next) => {
   store.dispatch(PURGE_MESSAGE)
+  store.dispatch(PURGE_PAGINATION)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.

@@ -24,7 +24,12 @@ const ApiService = {
   },
   get (resource, id = '') {
     let x = resource
-    id !== '' ? x += `/${id}` : x
+    if (id) {
+      console.log('Id exist')
+      id.match(/page/) ? id = `?${id}` : id = `/${id}`
+    }
+    x += id
+    console.log('ApiService :: get :: ' + x)
     return Vue.axios
       .get(`${x}`)
       .catch((error) => {
@@ -110,5 +115,37 @@ export const StatisticsService = {
   getSearch (client, params) {
     const resource = 'statistics/client/' + client + '/search'
     return ApiService.get(resource)
+  }
+}
+
+export const ClientsService = {
+  get (id) {
+    const resource = 'clients'
+    return ApiService.get(resource, id)
+  },
+  create (params) {
+    return ApiService.post('clients', params)
+  },
+  update (id, params) {
+    return ApiService.update('clients', id, params)
+  },
+  destroy (id) {
+    return ApiService.delete(`clients/${id}`)
+  }
+}
+
+export const UsersService = {
+  get (id) {
+    const resource = 'users/'
+    return ApiService.get(resource, id)
+  },
+  create (params) {
+    return ApiService.post('users', params)
+  },
+  update (id, params) {
+    return ApiService.update('users', id, params)
+  },
+  destroy (id) {
+    return ApiService.delete(`users/${id}`)
   }
 }

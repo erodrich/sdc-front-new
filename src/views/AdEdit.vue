@@ -217,7 +217,7 @@ export default {
       }
     },
     fetchAd () {
-      this.$store.dispatch(FETCH_ADS, { campaign: this.$route.params.campaignId, id: this.$route.params.id })
+      this.$store.dispatch(FETCH_ADS, { entity: this.$route.params.campaignId, id: this.$route.params.id })
         .then(res => {
           this.newAd = this.ad
           console.log(this.newAd)

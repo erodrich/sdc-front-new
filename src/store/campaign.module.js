@@ -7,7 +7,8 @@ import {
 } from './actions.type'
 import {
   SET_CAMPAIGNS,
-  SET_MESSAGE
+  SET_MESSAGE,
+  SET_PAGINATION
 } from './mutations.type'
 
 const state = {
@@ -18,7 +19,6 @@ const state = {
 }
 const getters = {
   campaigns (state) {
-    // let campaigns = state.campaigns.sort((a, b) => (a.id < b.id ? 1 : -1))
     return state.campaigns
   },
   campaign (state) {
@@ -38,7 +38,6 @@ const mutations = {
           name: data[i].attributes.name,
           start_date: data[i].attributes.start_date,
           end_date: data[i].attributes.end_date,
-          // active: data[i].attributes.active == 1 ? true : false
           active: data[i].attributes.active,
           beacons: data[i].relationships.beacons.data
         }
@@ -50,7 +49,6 @@ const mutations = {
         name: data.attributes.name,
         start_date: data.attributes.start_date,
         end_date: data.attributes.end_date,
-        // active: data.attributes.active == 1 ? true : false,
         active: data.attributes.active,
         ads: data.relationships.ads.data.length ? data.relationships.ads.data : null,
         beacons: data.relationships.beacons.data
@@ -65,6 +63,10 @@ const actions = {
       .get(rootGetters.getClientId, id)
       .then((response) => {
         commit(SET_CAMPAIGNS, response.data)
+        if(response.data.links) {
+          commit(SET_PAGINATION, response.data)
+        }
+
       })
       .catch((error) => {
         // console.log(error)

@@ -80,6 +80,48 @@ export default new Router({
       ]
     },
     {
+      path: '/admin',
+      component: () => import('@/views/Home'),
+      children: [
+        {
+          name: 'clientForm',
+          path: 'clients/edit/:id?',
+          component: () => import('@/views/ClientEdit'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          name: 'clients',
+          path: 'clients/:id?',
+          component: () => import('@/views/Clients'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          name: 'userForm',
+          path: 'users/edit/:id?',
+          component: () => import('@/views/UserEdit'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          name: 'users',
+          path: 'users/:id?',
+          component: () => import('@/views/Users'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
+      ]
+    },
+    {
       name: 'login',
       path: '/login',
       component: () => import('@/views/Login'),
