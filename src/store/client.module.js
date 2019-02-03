@@ -22,7 +22,9 @@ const actions = {
       .then((response) => {
         // console.log(response)
         context.commit(SET_CLIENTS, response.data)
-        context.commit(SET_PAGINATION, response.data)
+        if(response.data.links){
+          context.commit(SET_PAGINATION, response.data)
+        }
       })
       .catch((error) => {
         // console.log(error)
