@@ -1,6 +1,6 @@
 import { StatisticsService } from '@/common/api.service'
 import { FETCH_OVERVIEW, FETCH_INTERACTIONS } from '@/store/actions.type'
-import { SET_OVERVIEW, SET_INTERACTIONS } from '@/store/mutations.type'
+import { SET_OVERVIEW, SET_INTERACTIONS, SET_PAGINATION } from '@/store/mutations.type'
 
 const state = {
   overview: {},
@@ -28,6 +28,9 @@ const actions = {
       .then((response) => {
         console.log(response.data)
         context.commit(SET_OVERVIEW, response.data)
+        if(response.data.links){
+          context.commit(SET_PAGINATION, response.data)
+        }
       })
       .catch((error) => {
         throw error

@@ -1,4 +1,6 @@
 <template>
+    <div v-if="users.length > 0">
+        <pagination :action="action" ></pagination>
     <table v-if='users' class="table table-hover mt-1">
         <thead>
         <th>Nombre</th>
@@ -23,7 +25,10 @@
         </tr>
         </tbody>
     </table>
-
+    </div>
+    <div v-else>
+        No hay usuarios para mostrar
+    </div>
 </template>
 <script>
 import {

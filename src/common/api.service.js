@@ -80,13 +80,17 @@ export const BeaconsService = {
     return ApiService.get(resource, id)
   },
   create (params) {
-    return ApiService.post('beacons', {beacon: params})
+    return ApiService.post('beacons', params)
   },
   update (id, params) {
     return ApiService.update('beacons', id, params)
   },
   destroy (id) {
     return ApiService.delete(`beacons/${id}`)
+  },
+  getAll (id) {
+    const resource = 'beacons'
+    return ApiService.get(resource, id)
   }
 }
 export const AdsService = {

@@ -1,5 +1,6 @@
 <template>
     <div class="beaconstable">
+        <pagination :action="action" ></pagination>
         <div class="card">
             <div class="card-header">
                 <h5>Beacons</h5>
@@ -56,7 +57,8 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
-import {FETCH_BEACONS, FETCH_CAMPAIGNS, BEACON_UPDATE} from '@/store/actions.type'
+import {FETCH_ALL_BEACONS, FETCH_CAMPAIGNS, BEACON_UPDATE} from '@/store/actions.type'
+import Pagination from '@/components/lib/Pagination'
 
 export default {
   name: 'BeaconsList',
@@ -66,18 +68,22 @@ export default {
       campaignNames: []
     }
   },
+  props: ['action'],
   computed: {
     ...mapGetters([
       'beacons',
       'campaign'
     ])
   },
+  components: {
+    Pagination
+  },
   created () {
     this.fetchBeacons()
   },
   methods: {
     fetchBeacons () {
-      this.$store.dispatch(FETCH_BEACONS)
+      this.$store.dispatch(FETCH_ALL_BEACONS)
         .then(res => {
           this.beacons.forEach(beacon => {
             if (beacon.campaign_id) {
