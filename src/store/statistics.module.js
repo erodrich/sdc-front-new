@@ -38,10 +38,13 @@ const actions = {
   },
   [FETCH_INTERACTIONS] (context, id = '') {
     return StatisticsService
-      .getSearch(context.rootGetters.getClientId)
+      .getInteractions(context.rootGetters.getClientId, id)
       .then(response => {
         // console.log(response.data)
         context.commit(SET_INTERACTIONS, response.data)
+        if(response.data.links){
+          context.commit(SET_PAGINATION, response.data)
+        }
       })
       .catch(error => {
         throw error

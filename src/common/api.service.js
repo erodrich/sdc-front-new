@@ -119,7 +119,11 @@ export const StatisticsService = {
   getSearch (client, params) {
     const resource = 'statistics/client/' + client + '/search'
     return ApiService.get(resource)
-  }
+  },
+  getInteractions (client, id) {
+    const resource = 'statistics/client/' + client + '/interactions'
+    return ApiService.get(resource, id)
+  },
 }
 
 export const ClientsService = {
