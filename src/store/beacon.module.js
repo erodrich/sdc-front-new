@@ -1,6 +1,6 @@
 import { BeaconsService } from '@/common/api.service'
-import { FETCH_BEACONS, BEACON_UPDATE } from '@/store/actions.type'
-import { SET_BEACONS, PURGE_BEACON } from '@/store/mutations.type'
+import { FETCH_BEACONS, FETCH_ALL_BEACONS, BEACON_UPDATE, BEACON_NEW, BEACON_ADMIN_UPDATE, BEACON_DELETE } from '@/store/actions.type'
+import { SET_BEACONS, PURGE_BEACON, SET_MESSAGE } from '@/store/mutations.type'
 
 const state = {
   beacons: [],
@@ -26,6 +26,17 @@ const actions = {
         throw error
       })
   },
+  [FETCH_ALL_BEACONS] (context, id = '') {
+    return BeaconsService
+      .getAll(id)
+      .then((response) => {
+        //console.log(response.data)
+        context.commit(SET_BEACONS, response.data)
+      })
+      .catch((error) => {
+        throw error
+      })
+  },
   [BEACON_UPDATE] (context, data) {
     return BeaconsService
       .update(data.id, data)
@@ -36,7 +47,36 @@ const actions = {
         console.log(error)
         throw error
       })
+  },
+  [BEACON_NEW] (context, beacon) {
+    console.log(beacon)
+    return BeaconsService
+      .create(beacon)
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        context.commit(SET_MESSAGE, error.response.data)
+        throw error
+      })
+  },
+  [BEACON_ADMIN_UPDATE] (context, data) {
+    return BeaconsService
+      .update(data.id, data)
+      .then((response) => {
+        console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        context.commit(SET_MESSAGE, error.response.data)
+        throw error
+      })
+  },
+  [BEACON_DELETE] (context, id) {
+    return BeaconsService
+      .destroy(id)
   }
+
 }
 const mutations = {
   [SET_BEACONS] (state, data) {

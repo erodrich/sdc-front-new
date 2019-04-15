@@ -80,13 +80,17 @@ export const BeaconsService = {
     return ApiService.get(resource, id)
   },
   create (params) {
-    return ApiService.post('beacons', {beacon: params})
+    return ApiService.post('beacons', params)
   },
   update (id, params) {
     return ApiService.update('beacons', id, params)
   },
   destroy (id) {
     return ApiService.delete(`beacons/${id}`)
+  },
+  getAll (id) {
+    const resource = 'beacons'
+    return ApiService.get(resource, id)
   }
 }
 export const AdsService = {
@@ -115,7 +119,11 @@ export const StatisticsService = {
   getSearch (client, params) {
     const resource = 'statistics/client/' + client + '/search'
     return ApiService.get(resource)
-  }
+  },
+  getInteractions (client, id) {
+    const resource = 'statistics/client/' + client + '/interactions'
+    return ApiService.get(resource, id)
+  },
 }
 
 export const ClientsService = {

@@ -119,6 +119,24 @@ export default new Router({
             requiresAuth: false
           }
         },
+        {
+          name: 'beaconForm',
+          path: 'beacons/edit/:id?',
+          component: () => import('@/views/BeaconEdit'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
+        {
+          name: 'adminBeacons',
+          path: 'beacons/:id?',
+          component: () => import('@/views/BeaconsAdmin'),
+          props: true,
+          meta: {
+            requiresAuth: false
+          }
+        },
       ]
     },
     {
