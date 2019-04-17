@@ -14,11 +14,13 @@
 </template>
 <script>
 import AppStatisticsList from '@/components/StatisticsList'
+import Dashboard from '@/components/Dashboard'
 
 export default {
   name: 'Statistics',
   components: {
-    AppStatisticsList
+    AppStatisticsList,
+    Dashboard
   }
 
 }
