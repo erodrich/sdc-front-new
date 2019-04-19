@@ -6,7 +6,7 @@ const state = {
   overview: {},
   interactions: [],
   interactionsCount: 0,
-  interaction: {}
+  interaction: {},
 }
 
 const getters = {
@@ -63,6 +63,8 @@ const mutations = {
       total_campaigns: data.attributes.total_campaigns,
       active_campaigns: data.attributes.active_campaigns,
       total_ads: data.attributes.total_ads,
+      viewed_ads: data.attributes.viewed_ads,
+      notified_ads: data.attributes.notified_ads
     }
   },
   [SET_INTERACTIONS] (state, data) {

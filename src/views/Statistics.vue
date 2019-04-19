@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
-                    Estadìsticas
+                    Estadísticas
                 </h5>
             </div>
             <div class="card-body">
@@ -14,11 +14,13 @@
 </template>
 <script>
 import AppStatisticsList from '@/components/StatisticsList'
+import Dashboard from '@/components/Dashboard'
 
 export default {
   name: 'Statistics',
   components: {
-    AppStatisticsList
+    AppStatisticsList,
+    Dashboard
   }
 
 }
