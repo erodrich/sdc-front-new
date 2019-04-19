@@ -73,7 +73,7 @@ export default {
     ])
   },
   mounted () {
-    this.fetchOverview()
+    this.sleepFetch()
   },
   methods: {
     fetchOverview () {
