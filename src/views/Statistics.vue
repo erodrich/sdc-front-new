@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="d-flex justify-content-between align-items-center">
-                    Estadìsticas
+                    Estadísticas
                 </h5>
             </div>
             <div class="card-body">

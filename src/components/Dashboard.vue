@@ -1,17 +1,15 @@
 <template>
 <div class="container">
-    <line-chart></line-chart>
+    <doughnut></doughnut>
 </div>
 </template>
 <script>
-import BarChart from '@/components/lib/BarChart'
-import LineChart from '@/components/lib/LineChart'
+import Doughnut from '@/components/lib/DoughnutChart'
 
 export default {
   name: 'Dashboard',
   components: {
-    BarChart,
-    LineChart
+    Doughnut,
   }
 
 }

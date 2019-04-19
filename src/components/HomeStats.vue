@@ -4,6 +4,18 @@
             <h5 class="card-title">Estadísticas</h5>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6 col-md-8 col-lg-8">
+                    <div class="card text-center" style="margin-left: -5px">
+                        <DoughnutChart v-if="chartData"
+                                ref="skills_chart"
+                                :chart-data="chartData"
+                                :options="options">
+                        </DoughnutChart>
+                        <p class="h3">Anuncios</p>
+                    </div>
+                </div>
+            </div>
             <div class="card-deck">
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="card text-center" style="margin-left: -5px">
@@ -34,41 +46,80 @@
 <script>
 import { mapGetters } from 'vuex'
 import {FETCH_OVERVIEW} from '@/store/actions.type'
+import DoughnutChart from '@/components/lib/DoughnutChart'
+
+const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: {
+    animateRotate: false
+  }
+}
 
 export default {
   name: 'AppHomeStats',
   data () {
     return {
-
+      options,
+      chartData: null
     }
+  },
+  components: {
+    DoughnutChart
   },
   computed: {
     ...mapGetters([
-      'overview',
+      'overview'
     ])
   },
   mounted () {
-    this.sleepFetch()
+    this.fetchOverview()
   },
   methods: {
     fetchOverview () {
       this.$store.dispatch(FETCH_OVERVIEW)
         .then(() => {
-          // console.log(this.overview)
+          this.fetchStatistics()
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    sleepFetch() {
-      setTimeout(this.fetchOverview, 800);
+    sleepFetch () {
+      setTimeout(this.fetchOverview, 800)
+    },
+    fetchStatistics () {
+      let chartData = {
+        labels: ['Vistos', 'Notificados', 'No notificados'],
+        datasets: [
+          {
+            backgroundColor: [
+              'rgba(220, 40, 100, 0.8)',
+              'rgba(40, 124, 220, 0.8)',
+              'rgba(5, 125, 132, 0.8)'],
+            data: [
+              10, 10, 30
+            ]
+          }
+        ]
+      }
+      let inData = [
+        this.overview.viewed_ads,
+        this.overview.notified_ads,
+        this.overview.total_ads - (this.overview.viewed_ads + this.overview.notified_ads)
+      ]
+      chartData.datasets[0].data[0] = inData[0]
+      chartData.datasets[0].data[1] = inData[1]
+      chartData.datasets[0].data[2] = inData[2]
+
+      this.chartData = chartData
     }
   }
 }
 </script>
 <style>
-#thumbs {
-    margin: 10px auto;
-}
+    #thumbs {
+        margin: 10px auto;
+    }
 
 </style>
